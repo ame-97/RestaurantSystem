@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crear Cuenta</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body class="register-page">
+  <div class="bg-image"></div>
+  <div class="vignette"></div>
+  <div class="deco-line top-left"></div>
+  <div class="deco-line bottom-right"></div>
+
+  <div class="wrapper">
+    <div class="card">
+
+      <div class="panel-form">
+        <p class="form-eyebrow">Registro</p>
+        <h2 class="form-title">Crear Cuenta</h2>
+
+        <form id="registerForm" novalidate>
+
+          <!-- Nombre completo -->
+          <div class="form-group">
+            <label for="nombre">Nombre completo</label>
+            <div class="input-wrap">
+              <input 
+                type="text" 
+                id="nombre" 
+                placeholder="Tu nombre completo" 
+                minlength="10" 
+                maxlength="25" 
+                pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]+" 
+                required
+              >
+              <i class="fa-regular fa-user"></i>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="form-group">
+            <label for="email">Correo electrónico</label>
+            <div class="input-wrap">
+              <input type="email" id="email" placeholder="tucorreo@email.com" required>
+              <i class="fa-regular fa-envelope"></i>
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <label for="password">Contraseña</label>
+            <div class="input-wrap">
+              <input 
+                type="password" 
+                id="password" 
+                placeholder="Mínimo 8 caracteres" 
+                minlength="8" 
+                maxlength="15" 
+                  pattern="^(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,15}$"
+                required
+              >
+              <i class="fa-regular fa-lock"></i>
+            </div>
+
+            <div class="strength-bar">
+              <div class="strength-bar-fill" id="strengthFill"></div>
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <button class="btn-submit" type="submit">
+            Crear mi cuenta
+          </button>
+
+          <div id="registerAlert" class="alert-box">
+            <span id="registerAlertText"></span>
+          </div>
+
+          <div class="divider">o</div>
+
+          <a href="inicioSe.html" class="extra-link">
+            ¿Ya tienes cuenta? <span>Inicia sesión</span>
+          </a>
+        </form>
+      </div>
+
+      <div class="panel-brand">
+        <div>
+          <p class="brand-eyebrow">Ámbar</p>
+          <h1 class="brand-title">Únete a<br>nuestra <em>mesa</em></h1>
+
+          <p class="brand-desc">
+            Crea tu cuenta y disfruta de una experiencia gastronómica sin igual.
+          </p>
+
+          <ul class="benefit-list">
+            <li>Gestiona tus reservaciones fácilmente</li>
+            <li>Accede al menú exclusivo de temporada</li>
+            <li>Recibe promociones y eventos especiales</li>
+          </ul>
+        </div>
+
+        <div class="social-row">
+          <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Lógica del formulario -->
+    <script src="js/registro.js"></script>
+
+</body>
+</html>

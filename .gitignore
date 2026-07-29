@@ -1,0 +1,54 @@
+# ==========================
+# Visual Studio
+# ==========================
+.vs/
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# ==========================
+# ASP.NET
+# ==========================
+packages/*/
+!packages/repositories.config
+
+# ==========================
+# Node.js
+# ==========================
+node_modules/
+dist/
+.vite/
+npm-debug.log*
+
+# ==========================
+# Variables de entorno
+# ==========================
+.env
+.env.*
+
+# ==========================
+# Logs
+# ==========================
+*.log
+
+# ==========================
+# Windows
+# ==========================
+Thumbs.db
+Desktop.ini
+
+# ==========================
+# macOS
+# ==========================
+.DS_Store
+
+# ==========================
+# Archivos sensibles
+# ==========================
+ACCESOS.txt
+
+# NuGet packages
+backend/packages/

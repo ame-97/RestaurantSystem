@@ -1,0 +1,49 @@
+﻿<header class="header">
+  <style>
+    #menuAdmin1,
+    #menuAdmin2 {
+      display: none;
+    }
+  </style>
+
+  <div class="container nav">
+
+    <a class="brand" href="index.html">
+      <span class="brand-mark">A</span>
+      <span class="brand-name">Ambar</span>
+    </a>
+
+    <button class="nav-toggle" id="navToggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="menu.html">Menu</a>
+      <a href="ordenar.html">Ordenar</a>
+      <a href="contacto.html">Contacto</a>
+
+      <!-- ADMIN -->
+      <a href="adminProduc.html" id="menuAdmin1">Platillos</a>
+      <a href="menuAdmin.html" id="menuAdmin2">Usuarios</a>
+
+      <!-- USUARIO -->
+      <a href="inicioSe.html" id="linkUsuario">
+        <i class="fa-solid fa-circle-user"></i>
+        <span id="nombreUsuario">Iniciar sesión</span>
+      </a>
+
+      <a href="#" id="btnLogout" style="display:none; margin-left:10px;">
+        Cerrar sesión
+      </a>
+    </nav>
+
+    <a class="btn btn-primary" href="menu.html">
+      Ver Menu
+    </a>
+
+  </div>
+</header>
+
+<!-- Header controlado por layout.js -->

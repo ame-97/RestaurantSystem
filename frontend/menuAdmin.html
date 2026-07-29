@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrador</title>
+
+    <!-- CSS ADMIN (el nuevo que hicimos) -->
+    <link rel="stylesheet" href="./css/admin.css">
+    <link rel="stylesheet" href="./css/layout.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header id="header-container"></header>
+    <div class="admin-container">
+
+        <h1 class="admin-title">PANEL DE ADMINISTRACION DE USUARIOS</h1>
+
+        <div class="admin-card">
+            <div id="mensaje" class="mensaje"></div>
+            <table class="admin-table" id="tablaUsuarios">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Rol</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <!-- JS llena esto -->
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
+    <script>
+        (async function validarAccesoAdmin() {
+            const extraerUsuario = (data) => {
+                if (!data) return null;
+                return data.usuario || data.Usuario || data.user || data.User || data.data || data.Data || data;
+            };
+
+            const validarRol = (usuario) => {
+                const rolId = Number(usuario?.RolId ?? usuario?.rolId ?? usuario?.RoleId);
+                const rolNombre = String(
+                    usuario?.RolNombre ??
+                    usuario?.rolNombre ??
+                    usuario?.RoleName ??
+                    usuario?.roleName ??
+                    usuario?.rol ??
+                    usuario?.role ??
+                    ""
+                ).toLowerCase();
+                return rolId === 1 || rolNombre === "admin";
+            };
+
+            const token = localStorage.getItem("token");
+            const authHeaders = token ? { Authorization: `Bearer ${token}` } : {};
+
+            const localRaw = JSON.parse(localStorage.getItem("usuario") || "null");
+            const localUser = extraerUsuario(localRaw);
+            if (localUser && !validarRol(localUser)) {
+                window.location.href = "index.html";
+                return;
+            }
+
+            try {
+                const res = await fetch("http://localhost:61828/api/usuarios/session", {
+                    method: "GET",
+                    credentials: "include",
+                    headers: { ...authHeaders }
+                });
+
+                if (!res.ok) {
+                    if (!localUser) window.location.href = "inicioSe.html";
+                    return;
+                }
+
+                const raw = await res.text();
+                if (!raw) return;
+
+                let data = null;
+                try {
+                    data = JSON.parse(raw);
+                } catch (error) {
+                    data = null;
+                }
+
+                const usuario = extraerUsuario(data);
+                if (!usuario) {
+                    if (!localUser) window.location.href = "inicioSe.html";
+                    return;
+                }
+
+                if (!validarRol(usuario)) {
+                    window.location.href = "index.html";
+                }
+            } catch (error) {
+                if (!localUser) window.location.href = "inicioSe.html";
+            }
+        })();
+    </script>
+    <script src="./js/admin.js"></script>
+    <script src="js/layout.js"></script>
+
+
+</body>
+
+</html>

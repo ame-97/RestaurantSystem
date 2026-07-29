@@ -1,0 +1,510 @@
+
+:root {
+  --bg: #f6f4f1;
+  --surface: rgba(255,255,255,.88);
+  --stroke: rgba(20,20,20,.10);
+  --text: #151515;
+  --muted: rgba(21,21,21,.70);
+  --accent: #b48a55;
+  --accent2: #7b5a35;
+  --shadow: 0 18px 55px rgba(20,20,20,.12);
+  --radius: 18px;
+  --radius2: 24px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1a1410;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ---- Fondo ---- */
+.bg-image {
+  position: fixed;
+  inset: 0;
+  background: url('../img/Sesion.jpg') center/cover no-repeat;
+  filter: brightness(0.45) saturate(0.8);
+  z-index: 0;
+  transform: scale(1.05);
+  transition: transform 8s ease;
+}
+
+body:hover .bg-image {
+  transform: scale(1.0);
+}
+
+.bg-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.vignette {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(10,6,2,0.6) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ---- Líneas decorativas ---- */
+.deco-line {
+  position: fixed;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.15;
+}
+
+.deco-line.top-left {
+  top: 0; left: 0;
+  width: 320px; height: 320px;
+  border-right: 1px solid var(--accent);
+  border-bottom: 1px solid var(--accent);
+  border-radius: 0 0 var(--radius2) 0;
+}
+
+.deco-line.bottom-right {
+  bottom: 0; right: 0;
+  width: 320px; height: 320px;
+  border-left: 1px solid var(--accent);
+  border-top: 1px solid var(--accent);
+  border-radius: var(--radius2) 0 0 0;
+}
+
+/* ---- Wrapper ---- */
+.wrapper {
+  position: relative;
+  z-index: 10;
+  width: 90%;
+  max-width: 900px;
+  animation: fadeUp 0.9s cubic-bezier(.22,.68,0,1.2) both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- Card ---- */
+.card {
+  display: flex;
+  width: 100%;
+  border-radius: var(--radius2);
+  overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.45),
+              0 0 0 1px rgba(180,138,85,0.12);
+}
+
+/* ============================================
+   PANEL MARCA (oscuro)
+   ============================================ */
+.panel-brand {
+  flex: 1;
+  background: linear-gradient(145deg, rgba(20,14,8,0.78) 0%, rgba(30,20,10,0.65) 100%);
+  backdrop-filter: blur(22px) saturate(1.4);
+  -webkit-backdrop-filter: blur(22px) saturate(1.4);
+  padding: 60px 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #fff;
+  position: relative;
+}
+
+/* Línea dorada superior */
+.panel-brand::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.7;
+}
+
+/* Login: marca a la izquierda — borde derecho */
+.login-page .panel-brand {
+  border-right: 1px solid rgba(180,138,85,0.18);
+}
+
+/* Registro: marca a la derecha — borde izquierdo */
+.register-page .panel-brand {
+  border-left: 1px solid rgba(180,138,85,0.18);
+}
+
+.brand-eyebrow {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 28px; height: 1px;
+  background: var(--accent);
+}
+
+.brand-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.2rem, 3.8vw, 3.2rem);
+  font-weight: 300;
+  line-height: 1.1;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.brand-title em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.brand-desc {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.7;
+  max-width: 260px;
+}
+
+.benefit-list {
+  list-style: none;
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.benefit-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.5;
+}
+
+.benefit-list li::before {
+  content: '✦';
+  color: var(--accent);
+  font-size: 10px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.brand-quote {
+  padding-top: 24px;
+  border-top: 1px solid rgba(180,138,85,0.15);
+}
+
+.brand-quote p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  font-style: italic;
+  color: rgba(255,255,255,0.4);
+  line-height: 1.6;
+}
+
+.social-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 36px;
+}
+
+.social-row a {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(180,138,85,0.3);
+  display: grid; place-items: center;
+  color: rgba(255,255,255,0.55);
+  font-size: 13px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.social-row a:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(180,138,85,0.08);
+  transform: translateY(-2px);
+}
+
+
+.panel-form {
+  flex: 1;
+  background: rgba(246,244,241,0.94);
+  backdrop-filter: blur(30px) saturate(1.2);
+  -webkit-backdrop-filter: blur(30px) saturate(1.2);
+  padding: 60px 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.form-eyebrow {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+
+.form-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 32px;
+  line-height: 1.1;
+}
+
+/* ---- Grupos de input ---- */
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.input-wrap {
+  position: relative;
+}
+
+.input-wrap i {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(21,21,21,0.28);
+  font-size: 13px;
+  transition: color 0.2s;
+  pointer-events: none;
+}
+
+.input-wrap:focus-within i {
+  color: var(--accent);
+}
+
+.form-group input {
+  width: 100%;
+  padding: 13px 16px 13px 44px;
+  background: rgba(255,255,255,0.7);
+  border: 1.5px solid var(--stroke);
+  border-radius: var(--radius);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.form-group input::placeholder {
+  color: rgba(21,21,21,0.28);
+}
+
+.form-group input:focus {
+  border-color: var(--accent);
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(180,138,85,0.08);
+}
+
+.form-group input:valid:not(:placeholder-shown) {
+  border-color: #6ab04c;
+}
+
+.form-group input:invalid:not(:placeholder-shown) {
+  border-color: #e55039;
+}
+
+/* ---- Barra fortaleza contraseña (registro) ---- */
+.strength-bar {
+  height: 3px;
+  border-radius: 2px;
+  margin-top: 7px;
+  background: var(--stroke);
+  overflow: hidden;
+}
+
+.strength-bar-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 2px;
+  transition: width 0.4s ease, background 0.4s ease;
+}
+
+/* ---- Botón submit ---- */
+.btn-submit {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-top: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-submit::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(180,138,85,0.35);
+}
+
+.btn-submit:hover::after {
+  opacity: 1;
+}
+
+.btn-submit:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* ---- Divisor ---- */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 22px;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--stroke);
+}
+
+/* ---- Link extra ---- */
+.extra-link {
+  display: block;
+  text-align: center;
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.extra-link span {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.extra-link:hover span {
+  color: var(--accent2);
+  text-decoration: underline;
+}
+
+/* ---- Caja de alerta ---- */
+.alert-box {
+  margin-top: 14px;
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  display: none;
+  border: 1px solid;
+}
+
+.alert-box.error {
+  background: rgba(229,80,57,0.08);
+  border-color: rgba(229,80,57,0.25);
+  color: #c0392b;
+}
+
+.alert-box.success {
+  background: rgba(106,176,76,0.08);
+  border-color: rgba(106,176,76,0.25);
+  color: #27ae60;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 780px) {
+  .card {
+    flex-direction: column;
+  }
+
+  /* En móvil la marca va arriba siempre */
+  .register-page .card {
+    flex-direction: column-reverse;
+  }
+
+  .panel-brand {
+    border-right: none !important;
+    border-left: none !important;
+    border-bottom: 1px solid rgba(180,138,85,0.18);
+    padding: 40px 32px;
+  }
+
+  .brand-desc,
+  .brand-quote,
+  .benefit-list {
+    display: none;
+  }
+
+  .panel-form {
+    padding: 40px 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .wrapper {
+    width: 96%;
+  }
+
+  .panel-brand,
+  .panel-form {
+    padding: 30px 22px;
+  }
+
+  .brand-title {
+    font-size: 2rem;
+  }
+}

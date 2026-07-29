@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menú</title>
+  <link rel="stylesheet" href="./css/layout.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="./css/menu.css">
+</head>
+
+<body>
+  <header id="header-container"></header>
+
+  <div class="bread" id="pag1"></div>
+
+  <form class="search-form" id="search-form" onsubmit="event.preventDefault();">
+    <div class="search-container">
+      <input type="text" id="search" placeholder="Buscar platillo..." />
+      <button type="submit">Buscar</button>
+    </div>
+  </form>
+
+  <p id="mensajeBusqueda" class="mensaje"></p>
+
+  <main class="container">
+    <header class="menu-header">
+      <h1>NUESTRO MENÚ</h1>
+      <p>Vista adaptada para trabajar con la API usando fetch</p>
+    </header>
+
+    <section class="menu-section">
+      <h2>Productos del menú</h2>
+      <p id="estadoApiMenu" class="mensaje"></p>
+      <div class="menu-filters">
+        <div class="filter-buttons" id="categoryFilters">
+          <button type="button" class="filter-btn active" data-category="all">Todos</button>
+        </div>
+      </div>
+      <div class="cards-grid" id="productosApi"></div>
+    </section>
+  </main>
+
+  <div id="footer-container"></div>
+
+  <script src="js/menu.js"></script>
+  <script src="js/breadcrumb.js"></script>
+  <script src="js/layout.js"></script>
+</body>
+
+</html>

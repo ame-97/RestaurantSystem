@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Platillos</title>
+    <link rel="stylesheet" href="./css/adminPro.css">
+    <link rel="stylesheet" href="./css/layout.css">
+</head>
+
+<body>
+    <header id="header-container"></header>
+
+    <div class="admin-container">
+
+        <h2 class="admin-title">ADMINISTRACIÓN DE PLATILLOS</h2>
+
+        <h1>Platillos</h1>
+
+        <div class="admin-card">
+            <table class="admin-table" id="tablaProductos">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Categoría</th>
+                        <th>Precio</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <h1>Agregar Producto</h1>
+        <div class="admin-card">
+
+
+            <form id="formProducto">
+
+                <!-- Nombre -->
+                <input type="text" id="nombreProducto" placeholder="Nombre del producto"
+                    pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ ]+" required class="input-admin">
+
+                <!-- Categoría -->
+                <select id="categoriaProducto" class="input-admin" required>
+                    <option value="">Selecciona una categoría</option>
+                </select>
+
+                <!-- Descripción -->
+                <textarea id="descripcionProducto" placeholder="Descripción del producto" class="input-admin"
+                    required></textarea>
+
+                <!-- Precio -->
+                <input type="number" id="precioProducto" placeholder="Precio" class="input-admin" required>
+
+                <!-- Imagen -->
+                <input type="file" id="imagenProducto" accept="image/*" class="input-admin" required>
+
+                <!-- Vista previa -->
+                <img id="previewImagen" class="preview-img" />
+
+                <button type="submit" class="btn btn-save">
+                    Guardar Producto
+                </button>
+
+            </form>
+
+            <div id="mensaje" class="mensaje"></div>
+
+        </div>
+
+        <h1>Categorías</h1>
+
+        <div class="admin-card">
+            <table class="admin-table" id="tablaCategorias">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <h1>Agregar Categoría</h1>
+
+        <div class="admin-card">
+            <form id="formCategoria">
+                <input type="text" id="nombreCategoria" placeholder="Nombre de la categoría" class="input-admin"
+                    required>
+
+                <button type="submit" class="btn btn-save">
+                    Guardar Categoría
+                </button>
+            </form>
+
+            <div id="mensajeCategoria" class="mensaje"></div>
+        </div>
+    </div>
+    <!-- <script>
+        const usuario = JSON.parse(localStorage.getItem("usuario"));
+
+        if (!usuario) {
+            window.location.href = "inicioSe.html";
+        } else if (usuario.RolId !== 1) {
+            window.location.href = "index.html";
+        }
+    </script> -->
+
+    <script src="./js/adminPro.js"></script>
+    <script src="js/layout.js"></script>
+
+</body>
+
+</html>

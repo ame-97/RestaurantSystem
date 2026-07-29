@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <!-- Responsive layout -->
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ámbar | Restaurante</title>
+
+  <!-- Layout general + estilos específicos del index -->
+  <link rel="stylesheet" href="./css/layout.css">
+  <link rel="stylesheet" href="css/styleIndex.css" />
+  <script src="js/eventos.js"></script>
+
+  <!-- Iconos + tipografías -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <main>
+
+    <!-- Header dinámico cargado desde layout.js -->
+    <header id="header-container"></header>
+
+    <!-- ================= HERO ================= -->
+    <section class="hero">
+      <div class="container hero-grid">
+
+        <!-- Columna izquierda: Copy principal -->
+        <div class="hero-left">
+          <p class="eyebrow">
+            <span class="eyebrow-dot"></span>
+            Restaurante &nbsp;·&nbsp; Cocina con estilo
+          </p>
+
+          <h1>
+            Bienvenido(a) a<br>
+            <span class="accent brand-display">Ámbar</span>
+          </h1>
+
+          <p class="lead">
+            Sabores frescos, presentación elegante y una experiencia cálida.
+            Explora nuestro menú o haz tu orden en minutos.
+          </p>
+
+          <!-- Acciones principales -->
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="menu.html">
+              <i class="fa-solid fa-utensils"></i> Explorar Menú
+            </a>
+
+            <!-- Scroll hacia sección ordenar -->
+            <a class="btn btn-soft" href="#ordenar">
+              <i class="fa-regular fa-clock"></i> Ordenar ahora
+            </a>
+          </div>
+
+          <!-- Stats rápidas -->
+          <div class="stats">
+            <div class="stat">
+              <span class="stat-num">4.8 <i class="fa-solid fa-star stat-star"></i></span>
+              <span class="stat-label">Calificación</span>
+            </div>
+            <div class="stat">
+              <span class="stat-num">15–25</span>
+              <span class="stat-label">Min. entrega</span>
+            </div>
+            <div class="stat">
+              <span class="stat-num">100%</span>
+              <span class="stat-label">Ingredientes frescos</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Columna derecha: Carrusel + info -->
+        <div class="hero-right">
+
+          <!-- 
+            Carrusel:
+            main.js probablemente controla el movimiento,
+            botones prev/next y dots.
+          -->
+          <div class="carousel" aria-label="Carrusel de fotos">
+            <div class="carousel-track">
+              <img src="img/tacos.jpg" alt="Platillo elegante 1">
+              <img src="img/pozole.webp" alt="Platillo elegante 2">
+              <img src="img/alitas.jpg" alt="Platillo elegante 3">
+            </div>
+
+            <button class="carousel-btn prev" type="button" aria-label="Anterior">‹</button>
+            <button class="carousel-btn next" type="button" aria-label="Siguiente">›</button>
+
+            <!-- Indicadores del carrusel -->
+            <div class="carousel-dots" aria-label="Indicadores">
+              <button class="dot is-active" type="button"></button>
+              <button class="dot" type="button"></button>
+              <button class="dot" type="button"></button>
+            </div>
+
+            <!-- Badge flotante -->
+            <div class="carousel-badge">
+              <i class="fa-solid fa-fire-flame-curved"></i>
+              Platillo del día
+            </div>
+          </div>
+
+          <!-- Card informativa -->
+          <div class="info-card">
+            <div class="info-card-header">
+              <h3>Info del restaurante</h3>
+
+              <!-- Estado visual (posible futuro dinámico) -->
+              <span class="open-badge">
+                <span class="open-dot"></span> Abierto ahora
+              </span>
+            </div>
+
+            <p>
+              En <strong>Ámbar</strong> cuidamos cada detalle: sabor, presentación y atención.
+              Ideal para una comida tranquila o para llevar.
+            </p>
+
+            <div class="info-row">
+              <span><i class="fa-regular fa-clock"></i> &nbsp;Lun–Dom</span>
+              <span>12:00 pm – 10:00 pm</span>
+            </div>
+
+            <div class="info-row">
+              <span><i class="fa-solid fa-location-dot"></i> &nbsp;Ubicación</span>
+              <span>D5 SALON 204</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= ORDENAR ================= -->
+    <section class="section" id="ordenar">
+      <div class="container">
+        <div class="section-head">
+          <p class="section-eyebrow">Proceso de pedido</p>
+          <h2>Ordenar</h2>
+          <p>Un flujo simple y elegante para pedidos.</p>
+        </div>
+
+        <!-- Flujo de pasos -->
+        <div class="grid-3">
+          <article class="feature">
+            <div class="feature-num">01</div>
+            <h3>Elige</h3>
+            <p>Selecciona platillos del menú con precios y descripción clara.</p>
+          </article>
+
+          <article class="feature">
+            <div class="feature-num">02</div>
+            <h3>Confirma</h3>
+            <p>Revisa tu orden, agrega notas y selecciona "para llevar" o número de mesa.</p>
+          </article>
+
+          <article class="feature">
+            <div class="feature-num">03</div>
+            <h3>Disfruta</h3>
+            <p>Te mostramos el tiempo estimado y seguimiento en tiempo real.</p>
+          </article>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta">
+          <div>
+            <h3>¿Listo para ver el menú?</h3>
+            <p>Accede a los platillos y prepara tu primera orden.</p>
+          </div>
+
+          <a class="btn btn-primary" href="menu.html">
+            <i class="fa-solid fa-arrow-right"></i> Ir al Menú
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Placeholder para contacto futuro -->
+    <section class="section" id="contacto"></section>
+
+  </main>
+
+  <!-- Footer dinámico cargado por layout.js -->
+  <div id="footer-container"></div>
+
+  <!-- Scripts principales -->
+  <script src="js/layout.js"></script>
+  <script src="js/breadcrumb.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

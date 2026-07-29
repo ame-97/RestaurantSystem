@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Contacto</title>
+
+    <!-- Layout general + estilos específicos -->
+    <link rel="stylesheet" href="./css/layout.css">
+    <link rel="stylesheet" href="css/contacto.css">
+
+    <!-- Scripts propios de la página -->
+    <!-- contacto.js probablemente maneja validación/envío del form -->
+    <script src="js/contacto.js"></script>
+
+    <!-- Breadcrumb dinámico -->
+    <script src="js/breadcrums.js"></script>
+
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+    
+<body>
+
+    <!-- Header cargado dinámicamente desde layout.js -->
+    <header id="header-container"></header>
+
+    <section class="contacto">
+
+        <!-- Contenedor breadcrumb -->
+        <div id="pag" class="bread"></div>
+
+        <h2 class="titulo">CONTACTO</h2>
+        <p class="sub">¿Tienes dudas? Escríbenos.</p>
+
+        <div class="contacto-grid">
+
+            <!-- Card izquierda: Info del restaurante -->
+            <div class="card info">
+                <h3 class="center">Información del restaurante</h3>
+
+                <!-- Mapa embebido -->
+                <div class="contacto-mapa">
+                    <iframe
+                        src="https://www.google.com/maps?q=Universidad%20Tecnol%C3%B3gica%20de%20Puebla&output=embed"
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+
+                <div class="item">
+                    <strong>Horario:</strong>
+                    <span>Lun - Dom · 7:00 am - 2:00 pm</span>
+                </div>
+
+                <div class="item">
+                    <strong>Teléfono:</strong>
+                    <span>222 123 4567</span>
+                </div>
+
+                <div class="item">
+                    <strong>Correo:</strong>
+                    <span>contacto@zya.com</span>
+                </div>
+            </div>
+
+            <!-- Card derecha: Formulario -->
+            <!-- 
+                TODO: agregar id al form si contacto.js escucha submit
+                Ej: id="contactForm"
+            -->
+            <form class="card form">
+                <h3 class="center">Envíanos un mensaje</h3> 
+                <br>
+
+                <!-- Nombre -->
+                <input 
+                    type="text" 
+                    placeholder="Nombre Completo" 
+                    maxlength="40" 
+                    required
+                >
+
+                <!-- 
+                    Pattern actual solo permite correos tipo:
+                    algo@algo.com
+                    (quizá muy restrictivo para producción)
+                -->
+                <input 
+                    type="email" 
+                    id="correo" 
+                    placeholder="Correo" 
+                    pattern="[a-z0-9]+@[a-z0-9]+\.com" 
+                    required
+                >
+
+                <!-- Mensaje -->
+                <textarea 
+                    placeholder="Mensaje" 
+                    minlength="5" 
+                    maxlength="50" 
+                    required>
+                </textarea>
+
+                <button type="submit">Enviar</button>
+            </form>
+
+        </div>
+    </section>
+
+    <!-- Footer dinámico -->
+    <div id="footer-container"></div>
+
+    <!-- Layout principal (inyecta header/footer) -->
+    <script src="js/layout.js"></script>
+
+</body>
+</html>
