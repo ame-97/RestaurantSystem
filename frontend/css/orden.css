@@ -401,3 +401,308 @@ textarea:invalid {
   background: #2ecc71;
   color: #fff;
 }
+
+.card.form label {
+    display: block;
+    margin-bottom: 8px;
+    color: #2e2e2e;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+
+#tipoPedido,
+#metodoPago {
+    cursor: pointer;
+    background: rgba(255,255,255,0.9);
+}
+
+
+#datosDireccion {
+
+    margin-top: 10px;
+    margin-bottom: 15px;
+
+    padding: 18px;
+
+    background: rgba(176, 138, 87, 0.12);
+
+    border-radius: 14px;
+
+    border: 1px solid rgba(176, 138, 87, 0.35);
+
+}
+
+
+#datosDireccion h3 {
+
+    text-align: center;
+
+    color: #6b4f2c;
+
+    margin-bottom: 15px;
+
+    font-size: 18px;
+
+}
+
+
+#datosDireccion input {
+
+    background: rgba(255,255,255,0.9);
+
+}
+
+
+#datosDireccion {
+
+    animation: aparecerDireccion .3s ease;
+
+}
+
+
+@keyframes aparecerDireccion {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(-10px);
+
+    }
+
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+}
+
+
+.form select + label {
+
+    margin-top: 10px;
+
+}
+
+/* =====================================
+   RESUMEN PEDIDO CONFIRMADO
+   ===================================== */
+
+
+.pedido-confirmado {
+
+    width: 100%;
+    max-width: 600px;
+
+    background: rgba(255,255,255,0.90);
+
+    backdrop-filter: blur(10px);
+
+    border-radius: 22px;
+
+    padding: 25px;
+
+    margin: 20px auto;
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,0.15);
+
+    border-left: 8px solid #b08a57;
+
+    animation: aparecer .4s ease;
+
+}
+
+.pedido-confirmado h3 {
+    text-align: center;
+    font-size: 24px;
+    color: #b08a57;
+    margin-bottom: 30px;
+}
+
+.pedido-header {
+    margin-top: 20px;
+}
+
+@keyframes aparecer {
+
+    from {
+
+        opacity:0;
+        transform:translateY(20px);
+
+    }
+
+    to {
+
+        opacity:1;
+        transform:translateY(0);
+
+    }
+
+}
+
+
+
+
+.pedido-confirmado h3 {
+
+    text-align:center;
+
+    font-size:24px;
+
+    color:#b08a57;
+
+    margin-bottom:20px;
+
+}
+
+
+
+
+.pedido-header {
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:20px;
+
+}
+
+
+
+
+.badge {
+
+    padding:7px 14px;
+
+    border-radius:20px;
+
+    font-size:13px;
+
+    font-weight:bold;
+
+    color:white;
+
+}
+
+
+
+.badge.domicilio {
+
+    background:#3498db;
+
+}
+
+
+.badge.llevar {
+
+    background:#27ae60;
+
+}
+
+
+
+.badge.pendiente {
+
+    background:#e67e22;
+
+}
+
+
+.badge.pagado {
+
+    background:#2ecc71;
+
+}
+
+
+
+
+.pedido-info {
+
+    background:#f8f8f8;
+
+    padding:15px;
+
+    border-radius:15px;
+
+    margin-bottom:15px;
+
+}
+
+
+
+.pedido-info p {
+
+    margin:8px 0;
+
+    color:#333;
+
+    font-size:15px;
+
+}
+
+
+
+.pedido-info strong {
+
+    color:#b08a57;
+
+}
+
+
+
+
+.pedido-total {
+
+    margin-top:20px;
+
+    padding:15px;
+
+    border-radius:15px;
+
+    background:#b08a57;
+
+    color:white;
+
+    text-align:center;
+
+    font-size:22px;
+
+    font-weight:bold;
+
+}
+
+
+
+.pedido-id {
+
+    margin-top:15px;
+
+    text-align:center;
+
+    color:#777;
+
+    font-size:13px;
+
+}
+
+
+
+
+.ubicacion {
+
+    color:#555;
+
+    font-size:14px;
+
+}
