@@ -2,52 +2,322 @@
 <html lang="es">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Orden</title>
+
     <link rel="stylesheet" href="./css/layout.css">
     <link rel="stylesheet" href="css/orden.css">
+
     <script src="js/eventos.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 </head>
 
+
 <body>
-    <header id="header-container"></header>
 
-    <main class="main-content">
-        <div id="mensajeSesion" class="mensaje error" style="display:none;"></div>
-        <form class="card form" id="formOrdenar">
-            <h1 class="center">ORDENA TU COMIDA</h1>
-            <h3 class="center">Para llevar</h3>
 
-            <input id="nombre" type="text" placeholder="Nombre completo" minlength="10" required>
+<header id="header-container"></header>
 
-            <select id="platillo" required>
-                <option value="">Selecciona tu platillo</option>
-            </select>
 
-            <p id="estadoPlatillos" class="api-order-status"></p>
 
-            <input id="telefono" type="tel" placeholder="Numero telefonico" pattern="[0-9]{10}"
-                title="Ingresa 10 digitos" required>
+<main class="main-content">
 
-            <input id="cantidad" type="number" placeholder="Cantidad" min="1" max="10" required>
 
-            <textarea id="comentarios" placeholder="Comentarios (opcional)" required minlength="5" maxlength="30"></textarea>
+<div id="mensajeSesion" class="mensaje error" style="display:none;"></div>
 
-            <br><br>
-            <button type="submit">Confirmar pedido</button>
-            <br><br>
-        </form>
 
-        <h2 class="titulo-resumen">Tus pedidos</h2>
-        <div class="lista" id="lista"></div>
-    </main>
 
-    <div id="footer-container"></div>
+<form class="card form" id="formOrdenar">
 
-    <script src="js/orden.js"></script>
-    <script src="js/layout.js"></script>
+
+<h1 class="center">
+    ORDENA TU COMIDA
+</h1>
+
+
+
+
+<!-- TIPO PEDIDO -->
+
+<label for="tipoPedido">
+    Tipo de pedido
+</label>
+
+
+<select id="tipoPedido" required>
+
+
+    <option value="">
+        Selecciona tipo de pedido
+    </option>
+
+
+    <option value="Para llevar">
+        Para llevar
+    </option>
+
+
+    <option value="A domicilio">
+        A domicilio
+    </option>
+
+
+</select>
+
+
+
+
+
+
+<input
+    id="nombre"
+    type="text"
+    placeholder="Nombre completo"
+    minlength="10"
+    required
+>
+
+
+
+
+
+<select id="platillo" required>
+
+    <option value="">
+        Selecciona tu platillo
+    </option>
+
+</select>
+
+
+
+<p id="estadoPlatillos" class="api-order-status"></p>
+
+
+
+
+
+
+<input
+    id="telefono"
+    type="tel"
+    placeholder="Número telefónico"
+    pattern="[0-9]{10}"
+    title="Ingresa 10 dígitos"
+    required
+>
+
+
+
+
+
+
+<input
+    id="cantidad"
+    type="number"
+    placeholder="Cantidad"
+    min="1"
+    max="10"
+    required
+>
+
+
+
+
+
+
+
+<!-- DATOS DOMICILIO -->
+
+<div id="datosDireccion" style="display:none;">
+
+
+<h3>
+    Dirección de entrega
+</h3>
+
+
+
+<input
+    id="calle"
+    type="text"
+    placeholder="Calle y número"
+>
+
+
+
+
+<input
+    id="colonia"
+    type="text"
+    placeholder="Colonia"
+>
+
+
+
+
+<input
+    id="referencia"
+    type="text"
+    placeholder="Referencia"
+>
+
+
+
+
+<input
+    type="hidden"
+    id="latitud"
+>
+
+
+
+
+<input
+    type="hidden"
+    id="longitud"
+>
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- METODO PAGO -->
+
+
+<label for="metodoPago">
+
+    Método de pago
+
+</label>
+
+
+
+<select id="metodoPago" required>
+
+
+<option value="">
+
+    Selecciona método de pago
+
+</option>
+
+
+
+<option value="Efectivo">
+
+    Efectivo
+
+</option>
+
+
+
+
+<option value="Tarjeta al recibir">
+
+    Tarjeta al recibir
+
+</option>
+
+
+
+
+<option value="Tarjeta simulada">
+
+    Tarjeta simulada
+
+</option>
+
+
+</select>
+
+
+
+
+
+
+
+<textarea
+    id="comentarios"
+    placeholder="Comentarios (opcional)"
+    minlength="5"
+    maxlength="30"
+></textarea>
+
+
+
+
+
+
+<br><br>
+
+
+
+<button type="submit">
+
+    Confirmar pedido
+
+</button>
+
+
+
+<br><br>
+
+
+
+</form>
+
+
+
+
+
+
+
+<h2 class="titulo-resumen">
+
+    Tus pedidos
+
+</h2>
+
+
+
+
+<div class="lista" id="lista"></div>
+
+
+
+
+
+</main>
+
+
+
+
+
+<div id="footer-container"></div>
+
+
+
+
+
+<script src="js/orden.js"></script>
+
+<script src="js/layout.js"></script>
+
+
+
 </body>
 
 </html>
