@@ -11,5 +11,7 @@ namespace MenuApi.Models
         public string Nombre { get; set; }
         public int CategoriaId { get; set; }   
         public string CategoriaNombre { get; set; }
+        public string Descripcion { get; set; }
+        public decimal Precio { get; set; }
     }
 }

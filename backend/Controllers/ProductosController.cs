@@ -21,10 +21,20 @@ namespace MenuApi.Controllers
             {
                 con.Open();
                 SqlCommand cmd = new SqlCommand(@"
-            SELECT p.Id, p.Nombre, p.CategoriaId, c.Nombre AS CategoriaNombre
-            FROM Producto p
-            INNER JOIN Categoria c ON p.CategoriaId = c.Id
-        ", con);
+                            SELECT 
+                            p.Id,
+                            p.Nombre,
+                            p.CategoriaId,
+                            c.Nombre AS CategoriaNombre,
+                            dp.Descripcion,
+                            dp.Precio
+                        FROM Producto p
+                        INNER JOIN Categoria c 
+                            ON p.CategoriaId = c.Id
+                        LEFT JOIN DetalleProducto dp 
+                            ON p.Id = dp.ProductoId
+                                ", 
+                con);
 
                 SqlDataReader dr = cmd.ExecuteReader();
 
@@ -35,7 +45,15 @@ namespace MenuApi.Controllers
                         Id = (int)dr["Id"],
                         Nombre = dr["Nombre"].ToString(),
                         CategoriaId = (int)dr["CategoriaId"],
-                        CategoriaNombre = dr["CategoriaNombre"].ToString()
+                        CategoriaNombre = dr["CategoriaNombre"].ToString(),
+
+                        Descripcion = dr["Descripcion"] == DBNull.Value
+                            ? null
+                            : dr["Descripcion"].ToString(),
+
+                        Precio = dr["Precio"] == DBNull.Value
+                            ? 0
+                            : Convert.ToDecimal(dr["Precio"])
                     });
                 }
             }
@@ -44,7 +62,6 @@ namespace MenuApi.Controllers
         }
 
         // 🔍 GET POR ID
-
         public IHttpActionResult Get(int id)
         {
             Producto p = null;
@@ -52,10 +69,20 @@ namespace MenuApi.Controllers
             using (SqlConnection con = new SqlConnection(conexion))
             {
                 con.Open();
+
                 SqlCommand cmd = new SqlCommand(@"
-            SELECT p.Id, p.Nombre, p.CategoriaId, c.Nombre AS CategoriaNombre
+            SELECT
+                p.Id,
+                p.Nombre,
+                p.CategoriaId,
+                c.Nombre AS CategoriaNombre,
+                dp.Descripcion,
+                dp.Precio
             FROM Producto p
-            INNER JOIN Categoria c ON p.CategoriaId = c.Id
+            INNER JOIN Categoria c
+                ON p.CategoriaId = c.Id
+            LEFT JOIN DetalleProducto dp
+                ON p.Id = dp.ProductoId
             WHERE p.Id = @id
         ", con);
 
@@ -70,7 +97,15 @@ namespace MenuApi.Controllers
                         Id = (int)dr["Id"],
                         Nombre = dr["Nombre"].ToString(),
                         CategoriaId = (int)dr["CategoriaId"],
-                        CategoriaNombre = dr["CategoriaNombre"].ToString()
+                        CategoriaNombre = dr["CategoriaNombre"].ToString(),
+
+                        Descripcion = dr["Descripcion"] == DBNull.Value
+                            ? null
+                            : dr["Descripcion"].ToString(),
+
+                        Precio = dr["Precio"] == DBNull.Value
+                            ? 0
+                            : Convert.ToDecimal(dr["Precio"])
                     };
                 }
             }
