@@ -137,12 +137,19 @@
         document.getElementById("referencia");
 
 
+    const estadoDireccion =
+        document.getElementById("estadoDireccion");
+
+
     const latitud =
         document.getElementById("latitud");
 
 
     const longitud =
         document.getElementById("longitud");
+
+
+    let direccionValida = false;
 
 
 
@@ -267,6 +274,266 @@
 
 
     // ===============================
+    // VALIDACION DIRECCION (GEOLOCALIZACION)
+    // ===============================
+
+
+    async function buscarPorCalle(calleTexto){
+
+
+        const url =
+            `https://nominatim.openstreetmap.org/search?format=json&limit=1&street=${encodeURIComponent(calleTexto)}&country=Mexico&viewbox=-98.30,19.15,-98.05,18.95&bounded=1`;
+
+
+        const respuesta =
+            await fetch(url);
+
+
+        return await respuesta.json();
+
+
+    }
+
+
+
+    async function buscarPorColonia(coloniaTexto){
+
+
+        const url =
+            `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(coloniaTexto)}&viewbox=-98.30,19.15,-98.05,18.95&bounded=1`;
+
+
+        const respuesta =
+            await fetch(url);
+
+
+        return await respuesta.json();
+
+
+    }
+
+
+
+    function quitarNumero(texto){
+
+
+        return texto
+            .replace(/[0-9].*$/, "")
+            .trim();
+
+
+    }
+
+
+
+    async function validarDireccionEscrita(){
+
+
+        const calleValor =
+            calle.value.trim();
+
+
+        const coloniaValor =
+            colonia.value.trim();
+
+
+        if(calleValor.length < 5 || coloniaValor.length < 3){
+
+
+            direccionValida = false;
+
+
+            calle.setCustomValidity("Dirección incompleta");
+
+            colonia.setCustomValidity("Dirección incompleta");
+
+
+            estadoDireccion.textContent =
+                "Completa calle y colonia para validar la dirección";
+
+
+            return;
+
+
+        }
+
+
+
+        estadoDireccion.textContent =
+            "Validando dirección...";
+
+
+
+        try{
+
+
+            const resultadosCalleCompleta =
+                await buscarPorCalle(calleValor);
+
+
+
+            if(resultadosCalleCompleta.length > 0){
+
+
+                direccionValida = true;
+
+
+                calle.setCustomValidity("");
+
+                colonia.setCustomValidity("");
+
+
+                latitud.value =
+                    resultadosCalleCompleta[0].lat;
+
+
+                longitud.value =
+                    resultadosCalleCompleta[0].lon;
+
+
+                estadoDireccion.textContent =
+                    "Dirección válida";
+
+
+                return;
+
+
+            }
+
+
+
+            const calleSinNumero =
+                quitarNumero(calleValor);
+
+
+            const resultadosCalleSinNumero =
+                await buscarPorCalle(calleSinNumero);
+
+
+
+            if(resultadosCalleSinNumero.length > 0){
+
+
+                direccionValida = true;
+
+
+                calle.setCustomValidity("");
+
+                colonia.setCustomValidity("");
+
+
+                latitud.value =
+                    resultadosCalleSinNumero[0].lat;
+
+
+                longitud.value =
+                    resultadosCalleSinNumero[0].lon;
+
+
+                estadoDireccion.textContent =
+                    "Dirección aproximada validada: se usará esta zona como referencia de entrega";
+
+
+                return;
+
+
+            }
+
+
+
+            const resultadosColonia =
+                await buscarPorColonia(coloniaValor);
+
+
+
+            if(resultadosColonia.length > 0){
+
+
+                direccionValida = true;
+
+
+                calle.setCustomValidity("");
+
+                colonia.setCustomValidity("");
+
+
+                latitud.value =
+                    resultadosColonia[0].lat;
+
+
+                longitud.value =
+                    resultadosColonia[0].lon;
+
+
+                estadoDireccion.textContent =
+                    "No se pudo confirmar la calle exacta, pero la colonia es válida en Puebla; se usará como referencia de entrega";
+
+
+            }
+            else{
+
+
+                direccionValida = false;
+
+
+                calle.setCustomValidity("La dirección no pudo ser encontrada");
+
+                colonia.setCustomValidity("La dirección no pudo ser encontrada");
+
+
+                latitud.value = "";
+
+                longitud.value = "";
+
+
+                estadoDireccion.textContent =
+                    "No se encontró la dirección, revisa calle y colonia";
+
+
+            }
+
+
+        }
+        catch(error){
+
+
+            console.error(error);
+
+
+            direccionValida = false;
+
+
+            estadoDireccion.textContent =
+                "Error validando la dirección";
+
+
+        }
+
+
+    }
+
+
+
+    calle.addEventListener(
+        "blur",
+        validarDireccionEscrita
+    );
+
+
+
+    colonia.addEventListener(
+        "blur",
+        validarDireccionEscrita
+    );
+
+
+
+
+
+
+
+
+    // ===============================
     // DOMICILIO
     // ===============================
 
@@ -315,6 +582,18 @@
                 latitud.value="";
 
                 longitud.value="";
+
+
+                calle.setCustomValidity("");
+
+                colonia.setCustomValidity("");
+
+
+                direccionValida = false;
+
+
+                estadoDireccion.textContent =
+                    "";
 
 
             }
@@ -383,9 +662,24 @@
 
 
 
-            // VALIDAR UBICACION
+            // VALIDAR DIRECCION Y UBICACION
 
             if(tipoPedido.value === "A domicilio"){
+
+
+                if(!direccionValida){
+
+
+                    alert(
+                        "Verifica que la dirección sea válida antes de continuar."
+                    );
+
+
+                    return;
+
+
+                }
+
 
 
                 if(!latitud.value || !longitud.value){
@@ -596,6 +890,12 @@
 
                 latitud.value="";
                 longitud.value="";
+
+
+
+                direccionValida = false;
+
+                estadoDireccion.textContent = "";
 
 
 
