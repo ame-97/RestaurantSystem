@@ -1,4 +1,4 @@
-﻿window.onload = async function () {
+window.onload = async function () {
 
 
     // ===============================
@@ -21,6 +21,25 @@
             data.data ||
             data.Data ||
             data;
+
+    }
+
+
+
+    function obtenerUsuarioId(){
+
+        const guardado =
+            extraerUsuario(
+                JSON.parse(localStorage.getItem("usuario") || "null")
+            );
+
+
+        return guardado &&
+            (
+                guardado.Id ||
+                guardado.id ||
+                guardado.UsuarioId
+            );
 
     }
 
@@ -149,12 +168,72 @@
         document.getElementById("longitud");
 
 
+    const estadoPedido =
+        document.getElementById("estadoPedido");
+
+
     let direccionValida = false;
 
 
 
     const API =
         "http://localhost:61828/api";
+
+
+
+
+    // ===============================
+    // MENSAJES EN PANTALLA
+    // ===============================
+
+
+    function mostrarMensaje(texto, tipo){
+
+
+        estadoPedido.textContent = texto;
+
+
+        estadoPedido.className =
+            `mensaje ${tipo}`;
+
+
+        estadoPedido.style.display =
+            texto ? "block" : "none";
+
+
+    }
+
+
+
+    function limpiarMensaje(){
+
+
+        mostrarMensaje("", "");
+
+
+    }
+
+
+
+    // La API responde el error como {Message} en BadRequest y agrega
+    // ExceptionMessage cuando algo truena del lado del servidor.
+    function mensajeDeError(data){
+
+
+        if(!data){
+
+            return "No se pudo registrar el pedido";
+
+        }
+
+
+        return data.ExceptionMessage ||
+            data.Message ||
+            data.message ||
+            "No se pudo registrar el pedido";
+
+
+    }
 
 
 
@@ -605,6 +684,18 @@
 
 
 
+    // ===============================
+    // PAGO
+    // ===============================
+    // pago.js se encarga de mostrar, validar y limpiar los campos de tarjeta
+    // cuando el método de pago es "Tarjeta simulada".
+
+
+    Pago.init();
+
+
+
+
 
 
 
@@ -626,21 +717,13 @@
             e.preventDefault();
 
 
+            limpiarMensaje();
 
-
-            let usuario =
-                extraerUsuario(
-                    JSON.parse(
-                        localStorage.getItem("usuario")
-                    )
-                );
 
 
 
             const usuarioId =
-                usuario.Id ||
-                usuario.id ||
-                usuario.UsuarioId;
+                obtenerUsuarioId();
 
 
 
@@ -648,8 +731,9 @@
             if(!usuarioId){
 
 
-                alert(
-                    "No se encontró usuario"
+                mostrarMensaje(
+                    "No se encontró tu usuario. Inicia sesión de nuevo.",
+                    "error"
                 );
 
 
@@ -670,8 +754,9 @@
                 if(!direccionValida){
 
 
-                    alert(
-                        "Verifica que la dirección sea válida antes de continuar."
+                    mostrarMensaje(
+                        "Verifica que la dirección sea válida antes de continuar.",
+                        "error"
                     );
 
 
@@ -685,8 +770,9 @@
                 if(!latitud.value || !longitud.value){
 
 
-                    alert(
-                        "No se obtuvo la ubicación. Activa el permiso de ubicación e intenta nuevamente."
+                    mostrarMensaje(
+                        "No se obtuvo la ubicación. Activa el permiso de ubicación e intenta nuevamente.",
+                        "error"
                     );
 
 
@@ -696,6 +782,30 @@
 
 
                 }
+
+
+            }
+
+
+
+
+            // VALIDAR PAGO SIMULADO
+
+
+            const resultadoPago =
+                Pago.validar();
+
+
+            if(!resultadoPago.ok){
+
+
+                mostrarMensaje(
+                    resultadoPago.mensaje,
+                    "error"
+                );
+
+
+                return;
 
 
             }
@@ -831,8 +941,22 @@
 
 
 
-                const data =
-                    await response.json();
+                // La respuesta no siempre es JSON (por ejemplo una página de
+                // error de IIS), así que se lee de forma defensiva.
+
+                let data = null;
+
+
+                try{
+
+                    data = await response.json();
+
+                }
+                catch(errorJson){
+
+                    data = null;
+
+                }
 
 
 
@@ -846,9 +970,9 @@
                     console.error(data);
 
 
-                    alert(
-                        data.Message ||
-                        "Error creando pedido"
+                    mostrarMensaje(
+                        mensajeDeError(data),
+                        "error"
                     );
 
 
@@ -861,20 +985,20 @@
 
 
 
+                const pedidoGuardado =
+                    (data && data.pedido) || {};
 
 
-                alert(
-                    "Pedido registrado correctamente"
+                mostrarMensaje(
+                    `Pedido #${pedidoGuardado.Id} registrado correctamente. Total: $${Number(pedidoGuardado.Total || 0).toFixed(2)}`,
+                    "success"
                 );
 
 
 
 
 
-                agregarResumen(data);
-
-
-
+                // LIMPIAR FORMULARIO
 
 
                 document
@@ -885,6 +1009,12 @@
 
                 datosDireccion.style.display =
                     "none";
+
+
+
+                calle.required = false;
+
+                colonia.required = false;
 
 
 
@@ -899,6 +1029,20 @@
 
 
 
+                // Borra los datos de la tarjeta y oculta el bloque.
+
+                Pago.reiniciar();
+
+
+
+
+                // El resumen se recarga desde la API: así solo aparecen los
+                // pedidos que de verdad quedaron guardados en la base.
+
+                await cargarPedidos();
+
+
+
             }
             catch(error){
 
@@ -906,8 +1050,9 @@
                 console.error(error);
 
 
-                alert(
-                    "Error conectando con servidor"
+                mostrarMensaje(
+                    "No se pudo conectar con el servidor. Revisa que la API esté encendida.",
+                    "error"
                 );
 
 
@@ -928,22 +1073,58 @@
 
 
     // ===============================
-    // RESUMEN
+    // HISTORIAL DE PEDIDOS
     // ===============================
+    // El resumen se arma con lo que responde la API, no con lo que quedó en el
+    // formulario. Así refleja exactamente lo que está guardado en la base y
+    // sobrevive a recargas de la página.
 
 
-    function agregarResumen(data){
+    function escapar(texto){
+
+
+        return String(texto === null || texto === undefined ? "" : texto)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;");
+
+
+    }
 
 
 
-        const lista =
-            document.getElementById("lista");
+    function formatearFecha(fecha){
 
+
+        const valor = new Date(fecha);
+
+
+        return isNaN(valor.getTime())
+            ? ""
+            : valor.toLocaleString("es-MX", {
+                dateStyle: "medium",
+                timeStyle: "short"
+            });
+
+
+    }
+
+
+
+    const ICONOS_PAGO = {
+        "Efectivo": "fa-money-bill-wave",
+        "Tarjeta al recibir": "fa-credit-card",
+        "Tarjeta simulada": "fa-lock"
+    };
+
+
+
+    function crearTarjetaPedido(pedido){
 
 
         const div =
             document.createElement("div");
-
 
 
         div.className =
@@ -951,55 +1132,44 @@
 
 
 
-        const pedidoRespuesta =
-            data.pedido || {};
+        const esDomicilio =
+            pedido.TipoPedido === "A domicilio";
+
+
+        const pagado =
+            pedido.EstadoPago === "Pagado";
+
+
+        const iconoPago =
+            ICONOS_PAGO[pedido.MetodoPago] || "fa-wallet";
 
 
 
-        const direccionMostrar =
-
-            tipoPedido.value === "A domicilio"
-
-            ?
-
-            [
-                calle.value,
-                colonia.value,
-                referencia.value
-            ]
-            .filter(
-                x=>x && x.trim()!==""
-            )
-            .join(", ")
-
-            :
-
-            "No aplica";
-
-
+        const detalles =
+            (pedido.Detalles || [])
+            .map(detalle => `
+<p>
+<i class="fa-solid fa-utensils"></i>
+<strong>${escapar(detalle.ProductoNombre)}</strong>
+× ${escapar(detalle.Cantidad)} — $${Number(detalle.Subtotal || 0).toFixed(2)}
+</p>`)
+            .join("");
 
 
 
         div.innerHTML = `
 
-<h3>
-    Pedido confirmado
-</h3>
-
-
 <div class="pedido-header">
 
-    <span class="badge ${tipoPedido.value === "A domicilio" ? "domicilio" : "llevar"}">
-
-        ${tipoPedido.value}
-
+    <span class="badge ${esDomicilio ? "domicilio" : "llevar"}">
+        <i class="fa-solid ${esDomicilio ? "fa-house-chimney" : "fa-bag-shopping"}"></i>
+        ${escapar(pedido.TipoPedido)}
     </span>
 
 
-    <span class="badge ${data.EstadoPago === "Pagado" ? "pagado" : "pendiente"}">
-
-        ${data.EstadoPago || "Pendiente"}
-
+    <span class="badge ${pagado ? "pagado" : "pendiente"}">
+        <i class="fa-solid ${pagado ? "fa-circle-check" : "fa-hourglass-half"}"></i>
+        ${escapar(pedido.EstadoPago)}
     </span>
 
 </div>
@@ -1009,54 +1179,19 @@
 <div class="pedido-info">
 
 
-<p>
-<strong>🍽️ Platillo:</strong>
-${platillo.options[platillo.selectedIndex].text}
-</p>
+${detalles}
 
 
-
-<p>
-<strong>🔢 Cantidad:</strong>
-${cantidad.value}
-</p>
+<p><i class="fa-solid ${iconoPago}"></i> <strong>Método de pago:</strong> ${escapar(pedido.MetodoPago)}</p>
 
 
-
-<p>
-<strong>💳 Método de pago:</strong>
-${metodoPago.value}
-</p>
+<p><i class="fa-solid fa-location-dot"></i> <strong>Dirección:</strong> ${esDomicilio ? escapar(pedido.Direccion) : "No aplica"}</p>
 
 
-
-<p>
-<strong>📍 Dirección:</strong>
-${tipoPedido.value === "A domicilio" 
-? `${calle.value}, ${colonia.value}` 
-: "No aplica"}
-</p>
+${esDomicilio ? `<p class="ubicacion"><i class="fa-solid fa-crosshairs"></i> <strong>Ubicación:</strong> ${escapar(pedido.Latitud)} , ${escapar(pedido.Longitud)}</p>` : ""}
 
 
-
-<p class="ubicacion">
-
-<strong>🌎 Ubicación:</strong>
-
-${latitud.value || "Sin ubicación"} ,
-
-${longitud.value || ""}
-
-</p>
-
-
-
-<p>
-<strong>📝 Comentarios:</strong>
-
-${comentarios.value || "Sin comentarios"}
-
-</p>
+<p><i class="fa-regular fa-clock"></i> <strong>Fecha:</strong> ${escapar(formatearFecha(pedido.Fecha))}</p>
 
 
 </div>
@@ -1064,30 +1199,122 @@ ${comentarios.value || "Sin comentarios"}
 
 
 <div class="pedido-total">
-
-💰 Total:
-$${data.pedido?.Total || data.Total || 0}
-
+    <i class="fa-solid fa-receipt"></i>
+    Total: $${Number(pedido.Total || 0).toFixed(2)}
 </div>
 
 
 
 <div class="pedido-id">
-
-ID Pedido:
-${data.pedido?.Id || data.Id || "N/A"}
-
+    <i class="fa-solid fa-hashtag"></i>
+    Pedido ${escapar(pedido.Id)}
 </div>
 
 `;
 
 
 
-        lista.appendChild(div);
-
+        return div;
 
 
     }
+
+
+
+    async function cargarPedidos(){
+
+
+        const lista =
+            document.getElementById("lista");
+
+
+        const usuarioId =
+            obtenerUsuarioId();
+
+
+        if(!usuarioId){
+
+            return;
+
+        }
+
+
+
+        try{
+
+
+            const respuesta =
+                await fetch(
+                    `${API}/pedido/usuario/${usuarioId}`
+                );
+
+
+
+            if(!respuesta.ok){
+
+
+                lista.innerHTML =
+                    `<p class="api-order-status">No se pudo cargar tu historial de pedidos.</p>`;
+
+
+                return;
+
+
+            }
+
+
+
+            const pedidos =
+                await respuesta.json();
+
+
+
+            lista.innerHTML = "";
+
+
+
+            if(!pedidos.length){
+
+
+                lista.innerHTML =
+                    `<p class="api-order-status">Todavía no has hecho ningún pedido.</p>`;
+
+
+                return;
+
+
+            }
+
+
+
+            pedidos.forEach(pedido => {
+
+                lista.appendChild(
+                    crearTarjetaPedido(pedido)
+                );
+
+            });
+
+
+        }
+        catch(error){
+
+
+            console.error(error);
+
+
+            lista.innerHTML =
+                `<p class="api-order-status">No se pudo cargar tu historial de pedidos.</p>`;
+
+
+        }
+
+
+    }
+
+
+
+    cargarPedidos();
 
 
 

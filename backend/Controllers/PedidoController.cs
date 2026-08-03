@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Web.Http;
@@ -11,6 +12,128 @@ namespace MenuApi.Controllers
     {
         private readonly string conexion =
             ConfigurationManager.ConnectionStrings["MenuDB"].ConnectionString;
+
+        // ================================
+        // HISTORIAL DE PEDIDOS DEL USUARIO
+        // ================================
+        [HttpGet]
+        [Route("usuario/{usuarioId:int}")]
+        public IHttpActionResult GetPorUsuario(int usuarioId)
+        {
+            if (usuarioId <= 0)
+                return BadRequest("El usuario no es válido.");
+
+            List<Pedido> pedidos = new List<Pedido>();
+
+            // Se indexan por Id para poder colgarles los detalles sin repetir
+            // una consulta por cada pedido.
+            Dictionary<int, Pedido> porId = new Dictionary<int, Pedido>();
+
+            using (SqlConnection con = new SqlConnection(conexion))
+            {
+                con.Open();
+
+                SqlCommand cmdPedidos = new SqlCommand(@"
+                    SELECT
+                        Id,
+                        UsuarioId,
+                        TipoPedido,
+                        Direccion,
+                        Latitud,
+                        Longitud,
+                        MetodoPago,
+                        EstadoPago,
+                        Total,
+                        Fecha
+                    FROM Pedido
+                    WHERE UsuarioId = @usuarioId
+                    ORDER BY Id DESC
+                ", con);
+
+                cmdPedidos.Parameters.AddWithValue("@usuarioId", usuarioId);
+
+                using (SqlDataReader dr = cmdPedidos.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        Pedido pedido = new Pedido
+                        {
+                            Id = (int)dr["Id"],
+                            UsuarioId = (int)dr["UsuarioId"],
+                            TipoPedido = dr["TipoPedido"].ToString(),
+
+                            Direccion = dr["Direccion"] == DBNull.Value
+                                ? null
+                                : dr["Direccion"].ToString(),
+
+                            Latitud = dr["Latitud"] == DBNull.Value
+                                ? (decimal?)null
+                                : Convert.ToDecimal(dr["Latitud"]),
+
+                            Longitud = dr["Longitud"] == DBNull.Value
+                                ? (decimal?)null
+                                : Convert.ToDecimal(dr["Longitud"]),
+
+                            MetodoPago = dr["MetodoPago"].ToString(),
+                            EstadoPago = dr["EstadoPago"].ToString(),
+                            Total = Convert.ToDecimal(dr["Total"]),
+                            Fecha = Convert.ToDateTime(dr["Fecha"]),
+
+                            Detalles = new List<DetallePedido>()
+                        };
+
+                        pedidos.Add(pedido);
+                        porId[pedido.Id] = pedido;
+                    }
+                }
+
+                if (pedidos.Count == 0)
+                    return Ok(pedidos);
+
+                // Todos los detalles del usuario en una sola consulta.
+                SqlCommand cmdDetalles = new SqlCommand(@"
+                    SELECT
+                        d.Id,
+                        d.PedidoId,
+                        d.ProductoId,
+                        d.Cantidad,
+                        d.PrecioUnitario,
+                        d.Subtotal,
+                        pr.Nombre AS ProductoNombre
+                    FROM DetallePedido d
+                    INNER JOIN Pedido pe ON pe.Id = d.PedidoId
+                    INNER JOIN Producto pr ON pr.Id = d.ProductoId
+                    WHERE pe.UsuarioId = @usuarioId
+                    ORDER BY d.Id
+                ", con);
+
+                cmdDetalles.Parameters.AddWithValue("@usuarioId", usuarioId);
+
+                using (SqlDataReader dr = cmdDetalles.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        int pedidoId = (int)dr["PedidoId"];
+
+                        if (!porId.ContainsKey(pedidoId))
+                            continue;
+
+                        porId[pedidoId].Detalles.Add(new DetallePedido
+                        {
+                            Id = (int)dr["Id"],
+                            PedidoId = pedidoId,
+                            ProductoId = (int)dr["ProductoId"],
+                            Cantidad = (int)dr["Cantidad"],
+                            PrecioUnitario = Convert.ToDecimal(dr["PrecioUnitario"]),
+                            Subtotal = Convert.ToDecimal(dr["Subtotal"]),
+                            ProductoNombre = dr["ProductoNombre"].ToString()
+                        });
+                    }
+                }
+            }
+
+            return Ok(pedidos);
+        }
 
         [HttpPost]
         [Route("")]
