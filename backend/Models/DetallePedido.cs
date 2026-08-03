@@ -18,5 +18,9 @@ namespace MenuApi.Models
         public decimal PrecioUnitario { get; set; }
 
         public decimal Subtotal { get; set; }
+
+        // Solo se llena al consultar el historial de pedidos; no se guarda en
+        // DetallePedido, se trae con un JOIN contra Producto.
+        public string ProductoNombre { get; set; }
     }
 }

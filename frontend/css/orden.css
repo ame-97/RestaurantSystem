@@ -1,708 +1,868 @@
+/* ============================================================
+   ORDENAR — hoja de estilos
+   Paleta y geometría heredadas del resto del sitio: el bronce
+   #b08a57, las tarjetas de vidrio y las esquinas redondeadas ya
+   eran el lenguaje del proyecto. Lo que se agrega aquí es ritmo
+   (pasos numerados), una serif para los títulos y precios, y la
+   reja de platillos.
+   ============================================================ */
+
+:root {
+
+    --bronce: #b08a57;
+    --bronce-hondo: #6b4f2c;
+    --bronce-tenue: #e8dcc8;
+    --bronce-humo: rgba(176, 138, 87, 0.12);
+
+    --vidrio: rgba(255, 255, 255, 0.78);
+    --vidrio-solido: rgba(255, 255, 255, 0.94);
+
+    --tinta: #2e2e2e;
+    --tinta-suave: #6f6a63;
+
+    --verde: #2e7d5b;
+    --rojo: #c0392b;
+
+    --radio: 16px;
+    --radio-chico: 12px;
+
+    --sombra: 0 12px 30px rgba(0, 0, 0, 0.10);
+    --sombra-alta: 0 18px 40px rgba(0, 0, 0, 0.16);
+
+    --serif: Georgia, "Times New Roman", serif;
+    --sans: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+
+}
+
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--sans);
 }
+
 
 body {
     background-image: url("../img/fondo-or2.png");
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    color: var(--tinta);
 }
+
 
 .main-content {
     flex: 1;
     display: flex;
-    flex-direction: column;       
-    align-items: center;          
-    justify-content: flex-start;  
-    padding: 40px 20px;
-    gap: 20px;                    
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 40px 20px 60px;
+    gap: 24px;
 }
 
 
 .card.form {
-    background: rgba(255, 255, 255, 0.658);
-    backdrop-filter: blur(10px);
+    background: var(--vidrio);
+    backdrop-filter: blur(12px);
     width: 100%;
-    max-width: 500px;
-    padding: 35px;
-    border-radius: 18px;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    max-width: 720px;
+    padding: 0 0 32px;
+    border-radius: 22px;
+    box-shadow: var(--sombra-alta);
+    overflow: hidden;
 }
 
-.card.form h3,
-h1 {
+
+/* ---------- ENCABEZADO ---------- */
+
+.orden-encabezado {
+    padding: 34px 34px 26px;
     text-align: center;
-    margin-bottom: 25px;
-    color: #2e2e2e;
+    background: linear-gradient(160deg, rgba(176, 138, 87, 0.18), rgba(176, 138, 87, 0.04));
+    border-bottom: 1px solid var(--bronce-tenue);
 }
 
-.card.form input,
-.card.form select,
+.orden-eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bronce-hondo);
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.card.form h1 {
+    font-family: var(--serif);
+    font-size: 34px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    color: var(--tinta);
+}
+
+
+/* ---------- PASOS ---------- */
+
+.paso {
+    padding: 28px 34px 4px;
+    border-bottom: 1px solid rgba(176, 138, 87, 0.22);
+}
+
+.paso:last-of-type {
+    border-bottom: none;
+}
+
+.paso-cabecera {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.paso-num {
+    flex: 0 0 auto;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--bronce);
+    color: #fff;
+    font-family: var(--serif);
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.paso-titulo {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--tinta);
+}
+
+.paso-titulo i {
+    color: var(--bronce);
+    margin-right: 6px;
+    font-size: 16px;
+}
+
+
+/* ---------- CAMPOS ---------- */
+
+/* Las etiquetas de campo. Se excluyen las que son componentes en sí mismas
+   (tarjeta de platillo y tarjeta de opción), porque este selector es más
+   específico que sus clases y les ganaría el display, el color y el margen. */
+.card.form label:not(.platillo-card):not(.opcion) {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--bronce-hondo);
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.card.form label:not(.platillo-card):not(.opcion) i {
+    margin-right: 5px;
+    opacity: 0.8;
+}
+
+.card.form input[type="text"],
+.card.form input[type="tel"],
+.card.form input[type="number"],
+.card.form input[type="password"],
 .card.form textarea {
     width: 100%;
-    padding: 14px;
-    margin-bottom: 15px;
-    border-radius: 14px;
+    padding: 13px 15px;
+    margin-bottom: 16px;
+    border: 1.5px solid var(--bronce-tenue);
+    border-radius: var(--radio-chico);
+    background: var(--vidrio-solido);
     font-size: 15px;
+    color: var(--tinta);
     outline: none;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.card.form input:focus,
+.card.form textarea:focus {
+    border-color: var(--bronce);
+    box-shadow: 0 0 0 3px rgba(176, 138, 87, 0.20);
 }
 
 .card.form textarea {
     resize: none;
-    height: 100px;
+    height: 88px;
+    font-family: var(--sans);
 }
 
-.radio-group {
-    display: flex;
-    justify-content: space-around;
-    margin: 15px 0 20px;
+/* Campo con icono al frente */
+.campo-icono {
+    position: relative;
+}
+
+.campo-icono i {
+    position: absolute;
+    left: 15px;
+    top: 15px;
+    color: var(--bronce);
     font-size: 15px;
-    color: #2e2e2e;
+    pointer-events: none;
 }
 
-.radio-group label {
+.campo-icono input {
+    padding-left: 42px !important;
+}
+
+
+/* Estados: solo se colorea lo que ya tiene contenido, para no pintar de verde
+   un formulario vacío. Cantidad queda fuera: siempre es válida, así que el
+   verde ahí no informaría nada. */
+.card.form input:not(#cantidad):not(:placeholder-shown):valid,
+.card.form textarea:not(:placeholder-shown):valid {
+    border-color: var(--verde);
+}
+
+.card.form input:not(#cantidad):not(:placeholder-shown):invalid,
+.card.form textarea:not(:placeholder-shown):invalid {
+    border-color: var(--rojo);
+}
+
+
+/* ---------- FILTROS DE CATEGORÍA ---------- */
+
+.filtros {
     display: flex;
-    align-items: center;
+    flex-wrap: wrap;
     gap: 8px;
+    margin-bottom: 18px;
 }
 
-.card.form button {
-    background: #b08a57;
-    color: #fff;
-    border: none;
-    padding: 14px;
-    width: 100%;
-    border-radius: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.card.form button:hover {
-    opacity: 0.9;
-}
-
-.api-order-status {
-    margin-bottom: 15px;
-    text-align: center;
-    color: #6b4f2c;
-    font-weight: 700;
-}
-
-/* VALIDACIONES */
-input:valid,
-select:valid,
-textarea:valid {
-    border: 2px solid rgb(0, 200, 0);
-}
-
-input:invalid,
-select:invalid,
-textarea:invalid {
-    border: 2px solid rgb(255, 60, 60);
-}
-
-
-@media (max-width: 480px) {
-    .card.form {
-        padding: 25px;
-    }
-}
-
-
-/* RESUMEN DE PEDIDOS */
-
-
-.pedido-item {
-    background: rgba(255, 255, 255, 0.75);
-    backdrop-filter: blur(8px);
-    padding: 18px;
-    border-radius: 16px;
-    margin-bottom: 15px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-/* BOTONES */
-.pedido-item button {
-    margin-top: 10px;
-    margin-right: 8px;
-    padding: 8px 14px;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
+.filtro-chip {
+    border: 1.5px solid var(--bronce-tenue);
+    background: var(--vidrio-solido);
+    color: var(--bronce-hondo);
+    padding: 7px 15px;
+    border-radius: 999px;
     font-size: 13px;
     font-weight: 600;
-    transition: all 0.2s ease;
+    cursor: pointer;
+    text-transform: capitalize;
+    transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
 }
 
-/* Editar */
-.pedido-item button:first-of-type {
-    background: #b08a57;
-
-    color: #2e2e2e;
+.filtro-chip:hover {
+    border-color: var(--bronce);
 }
 
-.pedido-item button:first-of-type:hover {
-    background: #b08a57;
-}
-
-/* Eliminar */
-.pedido-item button:last-of-type {
-    background: #dc3545;
+.filtro-chip.activo {
+    background: var(--bronce);
+    border-color: var(--bronce);
     color: #fff;
 }
 
-.pedido-item button:last-of-type:hover {
-    background: #b02a37;
+
+/* ---------- REJA DE PLATILLOS ---------- */
+
+.platillos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(158px, 1fr));
+    gap: 14px;
+    margin-bottom: 14px;
 }
 
-/* Estilo inicial */
-.titulo-resumen {
-    text-align: center;
-    margin: 20px 0 10px;
-    font-size: 26px;
-    font-weight: 700;
-    color: #fff;
-    background: linear-gradient(90deg, #b08a57, #b19168);
-    padding: 10px 20px;
-    border-radius: 10px;
-    letter-spacing: 1.5px;
-    transition: all 0.3s ease;
-}
-
-#formOrdenar, #lista {
-    display: block;    
-    width: 100%;
-    clear: both;     
-    margin-bottom: 20px;
-    font-family: 'Segoe UI', sans-serif;
-}
-
-/* ========================================
-   PEDIDOS 
-   ======================================== */
-.pedido {
-    background: linear-gradient(145deg, #ffffff, #f5f5f5);
-    padding: 20px;
-    margin: 15px 0;
-    border-radius: 16px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-left: 6px solid #b08a57;
-}
-
-.pedido:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.12);
-}
-
-.pedido p {
-    margin: 8px 0;
-    color: #333;
-    font-size: 16px;
-    line-height: 1.4;
-}
-
-.pedido strong {
-    color: #b08a57;
-    font-weight: 600;
-}
-
-/* ========================================
-   TABLA DE PEDIDOS 
-   ======================================== */
-#tablaPedidos {
-    width: 100%;
-    margin-top: 20px;
-    border-collapse: collapse;
-    font-family: 'Segoe UI', sans-serif;
-    background: #ffffff;
-    border-radius: 12px;
+.platillo-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--vidrio-solido);
+    border: 1.5px solid var(--bronce-tenue);
+    border-radius: var(--radio);
     overflow: hidden;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-    transition: all 0.3s ease;
+    cursor: pointer;
+    margin-bottom: 0;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
 }
 
-#tablaPedidos th {
-    background: #b08a57;
+.platillo-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--sombra);
+    border-color: var(--bronce);
+}
+
+.platillo-card:focus-within {
+    outline: 3px solid rgba(176, 138, 87, 0.45);
+    outline-offset: 2px;
+}
+
+/* El radio sigue existiendo y sigue siendo enfocable con teclado;
+   solo se saca de la vista. */
+.platillo-card input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+}
+
+.platillo-foto {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    background: var(--bronce-humo);
+    display: block;
+}
+
+.platillo-cuerpo {
+    padding: 11px 13px 13px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex: 1;
+}
+
+.platillo-cat {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--bronce);
+    font-weight: 700;
+}
+
+.platillo-nombre {
+    font-family: var(--serif);
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--tinta);
+    line-height: 1.25;
+}
+
+.platillo-desc {
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--tinta-suave);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.platillo-precio {
+    font-family: var(--serif);
+    font-size: 19px;
+    color: var(--bronce-hondo);
+    margin-top: auto;
+    padding-top: 4px;
+}
+
+.platillo-check {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--bronce);
     color: #fff;
-    padding: 14px;
-    text-align: center;
-    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    opacity: 0;
+    transform: scale(0.6);
+    transition: opacity 0.18s ease, transform 0.18s ease;
 }
 
-#tablaPedidos td {
-    padding: 12px;
-    text-align: center;
-    color: #333;
+.platillo-card.seleccionado {
+    border-color: var(--bronce);
+    box-shadow: 0 0 0 2px var(--bronce), var(--sombra);
 }
 
-#tablaPedidos tr:nth-child(even) {
-    background: #f9f9f9;
+.platillo-card.seleccionado .platillo-check {
+    opacity: 1;
+    transform: scale(1);
 }
 
-#tablaPedidos tr:hover {
-    background: #ffe5cc;
+
+/* ---------- CANTIDAD ---------- */
+
+.cantidad-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
 }
 
-/* ========================================
-   BOTONES DENTRO DE LA TABLA
-   ======================================== */
-.boton-eliminar {
-    background: #b08a57;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 12px;
+.cantidad-btn {
+    width: 42px;
+    height: 46px;
+    flex: 0 0 auto;
+    border: 1.5px solid var(--bronce-tenue);
+    background: var(--vidrio-solido);
+    color: var(--bronce-hondo);
+    border-radius: var(--radio-chico);
     cursor: pointer;
     font-size: 14px;
-    font-weight: 600;
-    transition: all 0.25s ease;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: background 0.18s ease, color 0.18s ease;
 }
 
-.boton-eliminar:hover {
-    background: #e60000;
-    transform: scale(1.08);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+.cantidad-btn:hover {
+    background: var(--bronce);
+    color: #fff;
 }
 
-/* ========================================
-   AJUSTES RESPONSIVOS 
-   ======================================== */
-.resumen {
-    margin-top: 25px;
-    width: 100%;
-    max-width: 500px;
-    padding: 0 10px; 
-    box-sizing: border-box;
+.cantidad-control input {
+    width: 84px !important;
+    margin-bottom: 0 !important;
+    text-align: center;
+    font-family: var(--serif);
+    font-size: 17px;
 }
 
-.pedido-item {
-    padding: 15px;
-}
-
-.pedido-item p {
-    font-size: 14px;
-}
-
-.pedido-item strong {
+.linea-total {
+    font-family: var(--serif);
     font-size: 16px;
+    color: var(--bronce-hondo);
+    padding-bottom: 18px;
 }
 
-.pedido-item button {
-    padding: 6px 12px;
+.linea-total strong {
+    font-size: 20px;
+}
+
+
+/* ---------- OPCIONES (entrega y pago) ---------- */
+
+.opciones {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.opciones-tres {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.opcion {
+    position: relative;
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 5px;
+    padding: 18px 12px;
+    border: 1.5px solid var(--bronce-tenue);
+    border-radius: var(--radio);
+    background: var(--vidrio-solido);
+    cursor: pointer;
+    margin-bottom: 0 !important;
+    transition: border-color 0.18s ease, background 0.18s ease, transform 0.18s ease;
+}
+
+.opcion:hover {
+    border-color: var(--bronce);
+    transform: translateY(-2px);
+}
+
+.opcion:focus-within {
+    outline: 3px solid rgba(176, 138, 87, 0.45);
+    outline-offset: 2px;
+}
+
+.opcion input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+}
+
+.opcion-icono {
+    font-size: 21px;
+    color: var(--bronce);
+    margin: 0 !important;
+    transition: color 0.18s ease;
+}
+
+.opcion-titulo {
+    font-family: var(--serif);
+    font-size: 15px;
+    color: var(--tinta);
+}
+
+.opcion-nota {
+    font-size: 11.5px;
+    line-height: 1.35;
+    color: var(--tinta-suave);
+    font-weight: 400;
+}
+
+.opcion.seleccionada {
+    border-color: var(--bronce);
+    background: var(--bronce-humo);
+    box-shadow: 0 0 0 2px var(--bronce);
+}
+
+.opcion.seleccionada .opcion-icono {
+    color: var(--bronce-hondo);
+}
+
+
+/* ---------- BLOQUES DESPLEGABLES ---------- */
+
+#datosDireccion,
+#datosTarjeta {
+    margin: 4px 0 20px;
+    padding: 20px;
+    background: var(--bronce-humo);
+    border: 1px solid rgba(176, 138, 87, 0.35);
+    border-radius: var(--radio);
+    animation: aparecerBloque 0.28s ease;
+}
+
+.bloque-titulo {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--bronce-hondo);
+    margin-bottom: 14px;
+}
+
+.bloque-titulo i {
+    margin-right: 6px;
+    font-size: 15px;
+}
+
+@keyframes aparecerBloque {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ---------- TARJETAS DE PRUEBA ---------- */
+
+.aviso-simulado {
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--bronce-hondo);
+    margin-bottom: 12px;
+}
+
+.tarjetas-prueba {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.chip-tarjeta {
+    border: 1px dashed var(--bronce);
+    background: var(--vidrio-solido);
+    color: var(--bronce-hondo);
+    padding: 7px 12px;
+    border-radius: 999px;
     font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.18s ease, color 0.18s ease;
+}
+
+.chip-tarjeta:hover {
+    background: var(--bronce);
+    color: #fff;
+}
+
+.chip-tarjeta i {
+    margin-right: 5px;
+}
+
+.fila-tarjeta {
+    display: flex;
+    gap: 12px;
+}
+
+.fila-tarjeta > div {
+    flex: 1;
+    min-width: 0;
 }
 
 
-#tablaPedidos th, #tablaPedidos td {
-    padding: 8px;
-    font-size: 14px;
+/* ---------- BOTONES ---------- */
+
+.boton-principal {
+    display: block;
+    width: calc(100% - 68px);
+    margin: 8px auto 0;
+    background: var(--bronce);
+    color: #fff;
+    border: none;
+    padding: 16px;
+    border-radius: var(--radio);
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 17px;
+    cursor: pointer;
+    box-shadow: var(--sombra);
+    transition: background 0.18s ease, transform 0.18s ease;
 }
 
-/* ========================================
-   MEDIA QUERIES
-   ======================================== */
-
-
-@media (max-width: 480px) {
-    .titulo-resumen {
-        font-size: 20px;
-        padding: 8px 12px;
-    }
-
-    .pedido-item {
-        padding: 12px;
-    }
-
-    .pedido-item p {
-        font-size: 12px;
-    }
-
-    .pedido-item strong {
-        font-size: 14px;
-    }
-
-    #tablaPedidos th, #tablaPedidos td {
-        font-size: 12px;
-        padding: 6px;
-    }
-
-    .pedido-item button {
-        padding: 5px 10px;
-        font-size: 11px;
-    }
+.boton-principal:hover {
+    background: var(--bronce-hondo);
+    transform: translateY(-2px);
 }
 
+.boton-principal:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+}
 
-@media (min-width: 481px) and (max-width: 768px) {
-    .titulo-resumen {
-        font-size: 22px;
-    }
+.boton-principal i {
+    margin-right: 8px;
+}
 
-    .pedido-item p {
-        font-size: 13px;
-    }
+.boton-suave {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: 1.5px solid var(--bronce);
+    color: var(--bronce-hondo);
+    padding: 9px 15px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 16px;
+    transition: background 0.18s ease, color 0.18s ease;
+}
 
-    .pedido-item strong {
-        font-size: 15px;
-    }
-
-    #tablaPedidos th, #tablaPedidos td {
-        font-size: 13px;
-        padding: 8px;
-    }
-
-    .pedido-item button {
-        padding: 6px 12px;
-        font-size: 12px;
-    }
+.boton-suave:hover {
+    background: var(--bronce);
+    color: #fff;
 }
 
 
-@media (min-width: 1024px) {
-    .resumen {
-        max-width: 700px;
-        margin: 30px auto;
-    }
+/* ---------- MENSAJES ---------- */
 
-    .pedido-item {
-        padding: 20px;
-    }
-
-    #tablaPedidos th, #tablaPedidos td {
-        font-size: 16px;
-        padding: 12px 14px;
-    }
+.api-order-status {
+    font-size: 13px;
+    color: var(--bronce-hondo);
+    font-weight: 600;
+    margin: -6px 0 14px;
+    min-height: 1em;
 }
-
-
 
 .mensaje {
-  padding: 12px 20px;
-  margin-bottom: 15px;
-  border-radius: 6px;
-  font-size: 14px;
-  display: none;
+    padding: 14px 18px;
+    margin: 0 34px 16px;
+    border-radius: var(--radio-chico);
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    display: none;
 }
 
 .mensaje.error {
-  background: #e74c3c;
-  color: #fff;
+    background: var(--rojo);
+    color: #fff;
 }
 
 .mensaje.success {
-  background: #2ecc71;
-  color: #fff;
-}
-
-.card.form label {
-    display: block;
-    margin-bottom: 8px;
-    color: #2e2e2e;
-    font-weight: 600;
-    font-size: 15px;
+    background: var(--verde);
+    color: #fff;
 }
 
 
-#tipoPedido,
-#metodoPago {
-    cursor: pointer;
-    background: rgba(255,255,255,0.9);
-}
+/* ============================================================
+   HISTORIAL DE PEDIDOS
+   ============================================================ */
 
-
-#datosDireccion {
-
-    margin-top: 10px;
-    margin-bottom: 15px;
-
-    padding: 18px;
-
-    background: rgba(176, 138, 87, 0.12);
-
-    border-radius: 14px;
-
-    border: 1px solid rgba(176, 138, 87, 0.35);
-
-}
-
-
-#datosDireccion h3 {
-
-    text-align: center;
-
-    color: #6b4f2c;
-
-    margin-bottom: 15px;
-
-    font-size: 18px;
-
-}
-
-
-#datosDireccion input {
-
-    background: rgba(255,255,255,0.9);
-
-}
-
-
-#datosDireccion {
-
-    animation: aparecerDireccion .3s ease;
-
-}
-
-
-@keyframes aparecerDireccion {
-
-    from {
-
-        opacity: 0;
-
-        transform: translateY(-10px);
-
-    }
-
-
-    to {
-
-        opacity: 1;
-
-        transform: translateY(0);
-
-    }
-
-}
-
-
-.form select + label {
-
-    margin-top: 10px;
-
-}
-
-/* =====================================
-   RESUMEN PEDIDO CONFIRMADO
-   ===================================== */
-
-
-.pedido-confirmado {
-
+.titulo-resumen {
     width: 100%;
-    max-width: 600px;
-
-    background: rgba(255,255,255,0.90);
-
-    backdrop-filter: blur(10px);
-
-    border-radius: 22px;
-
-    padding: 25px;
-
-    margin: 20px auto;
-
-    box-shadow:
-        0 15px 35px rgba(0,0,0,0.15);
-
-    border-left: 8px solid #b08a57;
-
-    animation: aparecer .4s ease;
-
-}
-
-.pedido-confirmado h3 {
+    max-width: 720px;
     text-align: center;
+    font-family: var(--serif);
     font-size: 24px;
-    color: #b08a57;
-    margin-bottom: 30px;
+    font-weight: 400;
+    color: #fff;
+    background: var(--bronce);
+    padding: 12px 20px;
+    border-radius: var(--radio);
+    letter-spacing: 0.04em;
+    box-shadow: var(--sombra);
+}
+
+.lista {
+    width: 100%;
+    max-width: 720px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.pedido-item {
+    background: var(--vidrio);
+    backdrop-filter: blur(10px);
+    padding: 22px;
+    border-radius: var(--radio);
+    border-left: 6px solid var(--bronce);
+    box-shadow: var(--sombra);
+    animation: aparecerBloque 0.35s ease;
 }
 
 .pedido-header {
-    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
 }
-
-@keyframes aparecer {
-
-    from {
-
-        opacity:0;
-        transform:translateY(20px);
-
-    }
-
-    to {
-
-        opacity:1;
-        transform:translateY(0);
-
-    }
-
-}
-
-
-
-
-.pedido-confirmado h3 {
-
-    text-align:center;
-
-    font-size:24px;
-
-    color:#b08a57;
-
-    margin-bottom:20px;
-
-}
-
-
-
-
-.pedido-header {
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    margin-bottom:20px;
-
-}
-
-
-
 
 .badge {
-
-    padding:7px 14px;
-
-    border-radius:20px;
-
-    font-size:13px;
-
-    font-weight:bold;
-
-    color:white;
-
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 13px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.02em;
 }
 
-
-
-.badge.domicilio {
-
-    background:#3498db;
-
+.badge i {
+    font-size: 11px;
 }
 
-
-.badge.llevar {
-
-    background:#27ae60;
-
-}
-
-
-
-.badge.pendiente {
-
-    background:#e67e22;
-
-}
-
-
-.badge.pagado {
-
-    background:#2ecc71;
-
-}
-
-
-
+.badge.domicilio { background: #3d6f9e; }
+.badge.llevar    { background: var(--bronce-hondo); }
+.badge.pendiente { background: #c8862f; }
+.badge.pagado    { background: var(--verde); }
 
 .pedido-info {
-
-    background:#f8f8f8;
-
-    padding:15px;
-
-    border-radius:15px;
-
-    margin-bottom:15px;
-
+    background: rgba(255, 255, 255, 0.55);
+    padding: 16px;
+    border-radius: var(--radio-chico);
+    margin-bottom: 14px;
 }
-
-
 
 .pedido-info p {
-
-    margin:8px 0;
-
-    color:#333;
-
-    font-size:15px;
-
+    margin: 7px 0;
+    color: var(--tinta);
+    font-size: 14.5px;
+    line-height: 1.45;
 }
-
-
 
 .pedido-info strong {
-
-    color:#b08a57;
-
+    color: var(--bronce-hondo);
 }
 
-
-
+/* Ancho fijo para que los renglones queden alineados aunque el icono cambie. */
+.pedido-info i {
+    display: inline-block;
+    width: 17px;
+    text-align: center;
+    margin-right: 4px;
+    color: var(--bronce);
+    font-size: 13px;
+}
 
 .pedido-total {
-
-    margin-top:20px;
-
-    padding:15px;
-
-    border-radius:15px;
-
-    background:#b08a57;
-
-    color:white;
-
-    text-align:center;
-
-    font-size:22px;
-
-    font-weight:bold;
-
+    padding: 14px;
+    border-radius: var(--radio-chico);
+    background: var(--bronce);
+    color: #fff;
+    text-align: center;
+    font-family: var(--serif);
+    font-size: 21px;
 }
 
-
+.pedido-total i {
+    font-size: 17px;
+    margin-right: 7px;
+    opacity: 0.85;
+}
 
 .pedido-id {
+    margin-top: 12px;
+    text-align: center;
+    color: var(--tinta-suave);
+    font-size: 12.5px;
+    letter-spacing: 0.04em;
+}
 
-    margin-top:15px;
+.pedido-id i {
+    font-size: 10px;
+    margin-right: 3px;
+}
 
-    text-align:center;
+.ubicacion {
+    color: var(--tinta-suave);
+    font-size: 13px;
+}
 
-    color:#777;
 
-    font-size:13px;
+/* ============================================================
+   RESPONSIVO
+   ============================================================ */
+
+@media (max-width: 620px) {
+
+    .main-content { padding: 24px 14px 40px; }
+
+    .orden-encabezado { padding: 26px 20px 20px; }
+
+    .card.form h1 { font-size: 27px; }
+
+    .paso { padding: 24px 20px 4px; }
+
+    .mensaje { margin-left: 20px; margin-right: 20px; }
+
+    .boton-principal { width: calc(100% - 40px); }
+
+    .opciones,
+    .opciones-tres { grid-template-columns: 1fr; }
+
+    .opcion {
+        flex-direction: row;
+        text-align: left;
+        gap: 12px;
+        padding: 14px;
+        display: grid !important;
+        grid-template-columns: auto 1fr;
+        align-items: center;
+    }
+
+    .opcion-icono { grid-row: span 2; }
+
+    .platillos-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
 
 }
 
 
+@media (max-width: 380px) {
+
+    .platillos-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    .platillo-desc { display: none; }
+
+}
 
 
-.ubicacion {
+@media (prefers-reduced-motion: reduce) {
 
-    color:#555;
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 
-    font-size:14px;
+    .platillo-card:hover,
+    .opcion:hover,
+    .boton-principal:hover { transform: none; }
 
 }

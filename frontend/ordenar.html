@@ -33,103 +33,198 @@
 
 
 
-<form class="card form" id="formOrdenar">
+<form class="card form" id="formOrdenar" novalidate>
 
 
-<h1 class="center">
-    ORDENA TU COMIDA
-</h1>
+<div class="orden-encabezado">
 
+    <p class="orden-eyebrow">Puebla · para llevar o a domicilio</p>
 
+    <h1>Ordena tu comida</h1>
 
-
-<!-- TIPO PEDIDO -->
-
-<label for="tipoPedido">
-    Tipo de pedido
-</label>
-
-
-<select id="tipoPedido" required>
-
-
-    <option value="">
-        Selecciona tipo de pedido
-    </option>
-
-
-    <option value="Para llevar">
-        Para llevar
-    </option>
-
-
-    <option value="A domicilio">
-        A domicilio
-    </option>
-
-
-</select>
+</div>
 
 
 
 
+<!-- ============ PASO 1: PLATILLO ============ -->
+
+<section class="paso">
 
 
-<input
-    id="nombre"
-    type="text"
-    placeholder="Nombre completo"
-    minlength="10"
-    required
->
+<div class="paso-cabecera">
+
+    <span class="paso-num">1</span>
+
+    <h3 class="paso-titulo">
+        <i class="fa-solid fa-utensils"></i>
+        Elige tu platillo
+    </h3>
+
+</div>
 
 
+<div id="filtrosPlatillos" class="filtros"></div>
 
 
-
-<select id="platillo" required>
-
-    <option value="">
-        Selecciona tu platillo
-    </option>
-
-</select>
-
+<div id="platillos" class="platillos-grid"></div>
 
 
 <p id="estadoPlatillos" class="api-order-status"></p>
 
 
+<input type="hidden" id="platillo">
+
+
+
+<label for="cantidad">
+    <i class="fa-solid fa-hashtag"></i>
+    Cantidad
+</label>
+
+
+<div class="cantidad-control">
+
+    <button type="button" class="cantidad-btn" id="menosCantidad" aria-label="Quitar uno">
+        <i class="fa-solid fa-minus"></i>
+    </button>
+
+    <input
+        id="cantidad"
+        type="number"
+        min="1"
+        max="10"
+        value="1"
+        inputmode="numeric"
+    >
+
+    <button type="button" class="cantidad-btn" id="masCantidad" aria-label="Agregar uno">
+        <i class="fa-solid fa-plus"></i>
+    </button>
+
+</div>
+
+
+<p id="resumenLinea" class="linea-total"></p>
+
+
+</section>
 
 
 
 
-<input
-    id="telefono"
-    type="tel"
-    placeholder="Número telefónico"
-    pattern="[0-9]{10}"
-    title="Ingresa 10 dígitos"
-    required
->
+<!-- ============ PASO 2: TUS DATOS ============ -->
+
+<section class="paso">
+
+
+<div class="paso-cabecera">
+
+    <span class="paso-num">2</span>
+
+    <h3 class="paso-titulo">
+        <i class="fa-solid fa-user"></i>
+        Tus datos
+    </h3>
+
+</div>
+
+
+<label for="nombre">
+    Nombre completo
+</label>
+
+<div class="campo-icono">
+
+    <i class="fa-solid fa-signature"></i>
+
+    <input
+        id="nombre"
+        type="text"
+        placeholder="Nombre y apellido"
+        autocomplete="name"
+    >
+
+</div>
+
+<p id="estadoNombre" class="api-order-status"></p>
+
+
+<label for="telefono">
+    Número telefónico
+</label>
+
+<div class="campo-icono">
+
+    <i class="fa-solid fa-phone"></i>
+
+    <input
+        id="telefono"
+        type="tel"
+        placeholder="10 dígitos"
+        inputmode="numeric"
+        maxlength="10"
+        autocomplete="tel"
+    >
+
+</div>
+
+
+</section>
 
 
 
 
+<!-- ============ PASO 3: ENTREGA ============ -->
+
+<section class="paso">
 
 
-<input
-    id="cantidad"
-    type="number"
-    placeholder="Cantidad"
-    min="1"
-    max="10"
-    required
->
+<div class="paso-cabecera">
+
+    <span class="paso-num">3</span>
+
+    <h3 class="paso-titulo">
+        <i class="fa-solid fa-motorcycle"></i>
+        ¿Cómo lo recibes?
+    </h3>
+
+</div>
 
 
+<div class="opciones" id="opcionesTipo">
 
 
+<label class="opcion">
+
+    <input type="radio" name="tipoPedidoOpcion" value="Para llevar">
+
+    <i class="fa-solid fa-bag-shopping opcion-icono"></i>
+
+    <span class="opcion-titulo">Para llevar</span>
+
+    <span class="opcion-nota">Lo recoges en el restaurante</span>
+
+</label>
+
+
+<label class="opcion">
+
+    <input type="radio" name="tipoPedidoOpcion" value="A domicilio">
+
+    <i class="fa-solid fa-house-chimney opcion-icono"></i>
+
+    <span class="opcion-titulo">A domicilio</span>
+
+    <span class="opcion-nota">Te lo llevamos a tu puerta</span>
+
+</label>
+
+
+</div>
+
+
+<input type="hidden" id="tipoPedido">
 
 
 
@@ -138,144 +233,250 @@
 <div id="datosDireccion" style="display:none;">
 
 
-<h3>
+<h4 class="bloque-titulo">
+    <i class="fa-solid fa-location-dot"></i>
     Dirección de entrega
-</h3>
+</h4>
 
 
+<button type="button" class="boton-suave" id="usarUbicacion">
+    <i class="fa-solid fa-crosshairs"></i>
+    Usar mi ubicación actual
+</button>
+
+
+<label for="calle">Calle y número</label>
 
 <input
     id="calle"
     type="text"
-    placeholder="Calle y número"
+    placeholder="Ej. Mariano Escobedo 73"
+    autocomplete="off"
 >
 
 
-
+<label for="colonia">Colonia</label>
 
 <input
     id="colonia"
     type="text"
-    placeholder="Colonia"
+    placeholder="Ej. Joaquín Colombres"
+    autocomplete="off"
 >
 
 
-
+<label for="referencia">Referencia</label>
 
 <input
     id="referencia"
     type="text"
-    placeholder="Referencia"
+    placeholder="Ej. portón café, frente al parque"
+    autocomplete="off"
 >
 
 
 <p id="estadoDireccion" class="api-order-status"></p>
 
 
+<input type="hidden" id="latitud">
+
+<input type="hidden" id="longitud">
+
+
+</div>
+
+
+</section>
+
+
+
+
+<!-- ============ PASO 4: PAGO ============ -->
+
+<section class="paso">
+
+
+<div class="paso-cabecera">
+
+    <span class="paso-num">4</span>
+
+    <h3 class="paso-titulo">
+        <i class="fa-solid fa-wallet"></i>
+        ¿Cómo pagas?
+    </h3>
+
+</div>
+
+
+<div class="opciones opciones-tres" id="opcionesPago">
+
+
+<label class="opcion">
+
+    <input type="radio" name="metodoPagoOpcion" value="Efectivo">
+
+    <i class="fa-solid fa-money-bill-wave opcion-icono"></i>
+
+    <span class="opcion-titulo">Efectivo</span>
+
+    <span class="opcion-nota">Pagas al recibir</span>
+
+</label>
+
+
+<label class="opcion">
+
+    <input type="radio" name="metodoPagoOpcion" value="Tarjeta al recibir">
+
+    <i class="fa-solid fa-credit-card opcion-icono"></i>
+
+    <span class="opcion-titulo">Tarjeta al recibir</span>
+
+    <span class="opcion-nota">Terminal en la entrega</span>
+
+</label>
+
+
+<label class="opcion">
+
+    <input type="radio" name="metodoPagoOpcion" value="Tarjeta simulada">
+
+    <i class="fa-solid fa-lock opcion-icono"></i>
+
+    <span class="opcion-titulo">Tarjeta simulada</span>
+
+    <span class="opcion-nota">Pago de prueba en línea</span>
+
+</label>
+
+
+</div>
+
+
+<input type="hidden" id="metodoPago">
+
+
+
+<!-- DATOS TARJETA (SOLO PAGO SIMULADO) -->
+
+<div id="datosTarjeta" style="display:none;">
+
+
+<h4 class="bloque-titulo">
+    <i class="fa-solid fa-shield-halved"></i>
+    Datos de la tarjeta
+</h4>
+
+
+<p class="aviso-simulado">
+    Pago simulado con fines de prueba: no se hace ningún cargo real y los datos
+    de la tarjeta no se guardan ni se envían al servidor.
+</p>
+
+
+<div class="tarjetas-prueba">
+
+    <button type="button" class="chip-tarjeta" data-tarjeta="4242424242424242">
+        <i class="fa-solid fa-circle-check"></i>
+        4242 4242 4242 4242 · aprobada
+    </button>
+
+    <button type="button" class="chip-tarjeta" data-tarjeta="4000000000000002">
+        <i class="fa-solid fa-circle-xmark"></i>
+        4000 0000 0000 0002 · declinada
+    </button>
+
+</div>
+
+
+<label for="numeroTarjeta">Número de tarjeta</label>
+
+<div class="campo-icono">
+
+    <i class="fa-regular fa-credit-card"></i>
+
+    <input
+        id="numeroTarjeta"
+        type="text"
+        inputmode="numeric"
+        placeholder="0000 0000 0000 0000"
+        maxlength="19"
+        autocomplete="off"
+    >
+
+</div>
+
+
+<label for="titularTarjeta">Nombre del titular</label>
+
 <input
-    type="hidden"
-    id="latitud"
+    id="titularTarjeta"
+    type="text"
+    placeholder="Como aparece en la tarjeta"
+    autocomplete="off"
 >
 
 
+<div class="fila-tarjeta">
+
+    <div>
+        <label for="vencimientoTarjeta">Vencimiento</label>
+        <input
+            id="vencimientoTarjeta"
+            type="text"
+            inputmode="numeric"
+            placeholder="MM/AA"
+            maxlength="5"
+            autocomplete="off"
+        >
+    </div>
+
+    <div>
+        <label for="cvvTarjeta">CVV</label>
+        <input
+            id="cvvTarjeta"
+            type="password"
+            inputmode="numeric"
+            placeholder="123"
+            maxlength="4"
+            autocomplete="off"
+        >
+    </div>
+
+</div>
 
 
-<input
-    type="hidden"
-    id="longitud"
->
+<p id="estadoTarjeta" class="api-order-status"></p>
 
 
 </div>
 
 
 
-
-
-
-
-
-<!-- METODO PAGO -->
-
-
-<label for="metodoPago">
-
-    Método de pago
-
+<label for="comentarios">
+    <i class="fa-regular fa-comment-dots"></i>
+    Comentarios (opcional)
 </label>
-
-
-
-<select id="metodoPago" required>
-
-
-<option value="">
-
-    Selecciona método de pago
-
-</option>
-
-
-
-<option value="Efectivo">
-
-    Efectivo
-
-</option>
-
-
-
-
-<option value="Tarjeta al recibir">
-
-    Tarjeta al recibir
-
-</option>
-
-
-
-
-<option value="Tarjeta simulada">
-
-    Tarjeta simulada
-
-</option>
-
-
-</select>
-
-
-
-
-
-
 
 <textarea
     id="comentarios"
-    placeholder="Comentarios (opcional)"
-    minlength="5"
+    placeholder="Ej. sin cebolla, salsa aparte"
     maxlength="30"
 ></textarea>
 
 
+</section>
 
 
 
 
-<br><br>
+<p id="estadoPedido" class="mensaje"></p>
 
 
-
-<button type="submit">
-
+<button type="submit" class="boton-principal">
+    <i class="fa-solid fa-bag-shopping"></i>
     Confirmar pedido
-
 </button>
-
-
-
-<br><br>
-
 
 
 </form>
@@ -283,21 +484,12 @@
 
 
 
-
-
-
-<h2 class="titulo-resumen">
-
+<h3 class="titulo-resumen">
     Tus pedidos
-
-</h2>
-
-
+</h3>
 
 
 <div class="lista" id="lista"></div>
-
-
 
 
 
@@ -305,18 +497,15 @@
 
 
 
-
-
 <div id="footer-container"></div>
 
 
 
-
+<script src="js/pago.js"></script>
 
 <script src="js/orden.js"></script>
 
 <script src="js/layout.js"></script>
-
 
 
 </body>
