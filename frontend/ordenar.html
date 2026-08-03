@@ -247,6 +247,81 @@
 
 
 
+<!-- DATOS TARJETA (SOLO PAGO SIMULADO) -->
+
+<div id="datosTarjeta" style="display:none;">
+
+
+<h3>
+    Datos de la tarjeta
+</h3>
+
+
+<p class="aviso-simulado">
+    Pago simulado con fines de prueba: no se realiza ningún cargo real y los
+    datos de la tarjeta no se guardan ni se envían al servidor.
+    <br>
+    Tarjetas de prueba —
+    <strong>aprobada:</strong> 4242 4242 4242 4242 ·
+    <strong>declinada:</strong> 4000 0000 0000 0002
+</p>
+
+
+
+<input
+    id="numeroTarjeta"
+    type="text"
+    inputmode="numeric"
+    placeholder="Número de tarjeta"
+    maxlength="19"
+    autocomplete="off"
+>
+
+
+
+<input
+    id="titularTarjeta"
+    type="text"
+    placeholder="Nombre del titular"
+    autocomplete="off"
+>
+
+
+
+<div class="fila-tarjeta">
+
+
+    <input
+        id="vencimientoTarjeta"
+        type="text"
+        inputmode="numeric"
+        placeholder="MM/AA"
+        maxlength="5"
+        autocomplete="off"
+    >
+
+
+    <input
+        id="cvvTarjeta"
+        type="password"
+        inputmode="numeric"
+        placeholder="CVV"
+        maxlength="4"
+        autocomplete="off"
+    >
+
+
+</div>
+
+
+<p id="estadoTarjeta" class="api-order-status"></p>
+
+
+</div>
+
+
+
+
 
 
 
@@ -263,6 +338,10 @@
 
 
 <br><br>
+
+
+
+<p id="estadoPedido" class="mensaje"></p>
 
 
 
@@ -312,6 +391,8 @@
 
 
 
+
+<script src="js/pago.js"></script>
 
 <script src="js/orden.js"></script>
 

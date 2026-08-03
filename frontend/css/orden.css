@@ -418,7 +418,8 @@ textarea:invalid {
 }
 
 
-#datosDireccion {
+#datosDireccion,
+#datosTarjeta {
 
     margin-top: 10px;
     margin-bottom: 15px;
@@ -434,7 +435,8 @@ textarea:invalid {
 }
 
 
-#datosDireccion h3 {
+#datosDireccion h3,
+#datosTarjeta h3 {
 
     text-align: center;
 
@@ -447,16 +449,109 @@ textarea:invalid {
 }
 
 
-#datosDireccion input {
+#datosDireccion input,
+#datosTarjeta input {
 
     background: rgba(255,255,255,0.9);
 
 }
 
 
-#datosDireccion {
+#datosDireccion,
+#datosTarjeta {
 
     animation: aparecerDireccion .3s ease;
+
+}
+
+
+/* Fila de vencimiento + CVV */
+.fila-tarjeta {
+
+    display: flex;
+
+    gap: 12px;
+
+}
+
+
+.fila-tarjeta input {
+
+    flex: 1;
+
+    min-width: 0;
+
+}
+
+
+/* Aviso de que el pago es de prueba */
+.aviso-simulado {
+
+    margin-bottom: 15px;
+
+    font-size: 13px;
+
+    line-height: 1.4;
+
+    color: #6b4f2c;
+
+    text-align: center;
+
+}
+
+
+/* Mensajes de resultado del pedido (éxito / error de la API) */
+#estadoPedido {
+
+    text-align: center;
+
+    font-weight: 600;
+
+}
+
+
+/* Iconos del historial de pedidos. Ancho fijo para que los renglones queden
+   alineados aunque el icono cambie. */
+.pedido-info i {
+
+    display: inline-block;
+
+    width: 17px;
+
+    text-align: center;
+
+    margin-right: 4px;
+
+    color: #b08a57;
+
+    font-size: 13px;
+
+}
+
+
+.badge i {
+
+    margin-right: 5px;
+
+    font-size: 11px;
+
+}
+
+
+.pedido-total i {
+
+    margin-right: 7px;
+
+    opacity: 0.85;
+
+}
+
+
+.pedido-id i {
+
+    margin-right: 3px;
+
+    font-size: 10px;
 
 }
 
